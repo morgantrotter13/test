@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.CHAT_SECRET }}
+      OPENAI_MODEL: gpt-5
+      OPENAI_TEMPERATURE: 0.7
+      OPENAI_MAX_TOKENS: 800
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: pytest

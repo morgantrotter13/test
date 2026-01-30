@@ -1,0 +1,17 @@
+Analyze the following brand and provide a comprehensive brand analysis:
+
+Brand Name: {{ brand_name }}
+Industry: {{ industry }}
+Target Audience: {{ target_audience }}
+Brand Values: {{ brand_values }}
+Website/Products: {{ brand_info }}
+
+Please provide:
+1. Brand Voice & Tone Analysis
+2. Key Messaging Themes
+3. Target Audience Insights
+4. Competitive Positioning
+5. Brand Personality Traits
+6. Content Style Recommendations
+
+Format your response as a structured analysis that can be used to inform content strategy.

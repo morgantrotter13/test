@@ -1,0 +1,23 @@
+Generate a social media post based on the following brand analysis and content strategy:
+
+Brand Analysis:
+{{ brand_analysis_output }}
+
+Content Strategy:
+{{ strategy_output }}
+
+Post Requirements:
+- Topic: {{ post_topic }}
+- Tone: {{ tone }}
+- Platform: {{ platform }}
+- Post Type: {{ post_type }}
+- Include CTA: {{ include_cta }}
+
+Generate a complete social media post that:
+1. Aligns with the brand voice and messaging
+2. Follows the content strategy guidelines
+3. Is optimized for the specified platform
+4. Includes relevant hashtags (if applicable)
+5. Has an engaging hook and clear message
+
+Post Content:

@@ -1,0 +1,28 @@
+{
+  "name": "customer_onboarding",
+  "description": "Onboard a new customer with welcome message and setup instructions",
+  "steps": [
+    {
+      "id": "welcome",
+      "type": "prompt",
+      "prompt": "greeting",
+      "variables": {
+        "account_type": "{{ account_type }}"
+      }
+    },
+    {
+      "id": "setup",
+      "type": "prompt",
+      "prompt": "setup_instructions",
+      "variables": {
+        "user_name": "{{ name }}"
+      }
+    },
+    {
+      "id": "merge",
+      "type": "merge",
+      "strategy": "concat",
+      "sources": ["welcome", "setup"]
+    }
+  ]
+}

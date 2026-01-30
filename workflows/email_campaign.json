@@ -1,0 +1,30 @@
+{
+  "name": "email_campaign",
+  "description": "Generate a complete email campaign with greeting and template",
+  "steps": [
+    {
+      "id": "greeting_step",
+      "type": "prompt",
+      "prompt": "greeting",
+      "variables": {}
+    },
+    {
+      "id": "email_step",
+      "type": "prompt",
+      "prompt": "email_template",
+      "variables": {
+        "subject": "{{ email_subject }}",
+        "recipient_name": "{{ name }}",
+        "message_body": "{{ email_body }}",
+        "include_footer": true,
+        "sender_name": "AI SaaS Team"
+      }
+    },
+    {
+      "id": "final_merge",
+      "type": "merge",
+      "strategy": "concat",
+      "sources": ["greeting_step", "email_step"]
+    }
+  ]
+}

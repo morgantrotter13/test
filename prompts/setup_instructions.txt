@@ -1,0 +1,12 @@
+Hi {{ user_name }},
+
+Here are your setup instructions:
+
+1. Complete your profile
+2. Connect your first integration
+3. Explore the dashboard
+
+If you need help, our support team is available 24/7.
+
+Best regards,
+The AI SaaS Team

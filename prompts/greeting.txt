@@ -1,0 +1,5 @@
+Hello {{ name }}! Welcome to our AI SaaS platform.
+
+Your account type is: {{ account_type }}
+
+We're excited to have you on board!

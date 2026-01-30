@@ -1,0 +1,19 @@
+Based on the following brand analysis, create a content strategy:
+
+{{ brand_analysis_output }}
+
+Additional Context:
+- Content Goals: {{ content_goals }}
+- Platform: {{ platform }}
+- Post Frequency: {{ post_frequency }}
+- Content Themes: {{ content_themes }}
+
+Please provide:
+1. Content Pillars (3-5 main themes)
+2. Posting Strategy & Best Times
+3. Content Mix Recommendations
+4. Engagement Tactics
+5. Hashtag Strategy
+6. Call-to-Action Guidelines
+
+Format your response as an actionable content strategy document.

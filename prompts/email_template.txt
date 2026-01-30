@@ -1,0 +1,10 @@
+Subject: {{ subject }}
+
+Dear {{ recipient_name }},
+
+{{ message_body }}
+
+{% if include_footer %}
+---
+This email was sent by {{ sender_name }} from AI SaaS Platform.
+{% endif %}
