@@ -253,7 +253,6 @@ function CompanySetup({ existingProfile, onSave }) {
                     <option value="Instagram">Instagram</option>
                     <option value="Facebook">Facebook</option>
                     <option value="LinkedIn">LinkedIn</option>
-                    <option value="Twitter">Twitter/X</option>
                     <option value="TikTok">TikTok</option>
                   </select>
                 </div>
@@ -426,7 +425,6 @@ function CompanySetup({ existingProfile, onSave }) {
                   <option value="Instagram">Instagram</option>
                   <option value="Facebook">Facebook</option>
                   <option value="LinkedIn">LinkedIn</option>
-                  <option value="Twitter">Twitter/X</option>
                   <option value="TikTok">TikTok</option>
                 </select>
               </div>

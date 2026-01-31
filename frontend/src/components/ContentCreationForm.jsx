@@ -129,10 +129,9 @@ function ContentCreationForm({ onSubmit, loading }) {
             onChange={handleChange}
             required
           >
-            <option value="LinkedIn">LinkedIn</option>
-            <option value="Twitter">Twitter</option>
             <option value="Instagram">Instagram</option>
             <option value="Facebook">Facebook</option>
+            <option value="LinkedIn">LinkedIn</option>
             <option value="TikTok">TikTok</option>
           </select>
         </div>

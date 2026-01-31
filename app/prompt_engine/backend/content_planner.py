@@ -218,7 +218,6 @@ The post MUST relate to their actual products, services, or business. Don't make
         "Instagram": "Keep the caption 100-150 characters before hashtags. Short, punchy, and scroll-stopping. Hook in first line.",
         "Facebook": "Keep it 40-100 characters for best engagement. Brief and conversational.",
         "LinkedIn": "Keep it 50-100 words. Professional but personable. Start with a hook.",
-        "Twitter": "Keep it under 200 characters including hashtags. Concise and impactful.",
         "TikTok": "Keep it under 100 characters. Fun, trendy, and action-oriented."
     }.get(platform, "Keep it concise - 2-3 short sentences max.")
     
@@ -533,7 +532,6 @@ def regenerate_one_post(
         "Instagram": "Keep the caption 100-150 characters before hashtags. Short, punchy, and scroll-stopping.",
         "Facebook": "Keep it 40-100 characters for best engagement. Brief and conversational.",
         "LinkedIn": "Keep it 50-100 words. Professional but personable. Start with a hook.",
-        "Twitter": "Keep it under 200 characters including hashtags. Concise and impactful.",
         "TikTok": "Keep it under 100 characters. Fun, trendy, and action-oriented."
     }.get(platform, "Keep it concise - 2-3 short sentences max.")
     

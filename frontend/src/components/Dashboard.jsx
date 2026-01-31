@@ -6,7 +6,6 @@ import { useAuth } from '../contexts/AuthContext'
 const platformIcons = {
   'Instagram': '📸',
   'Facebook': '👍',
-  'Twitter': '🐦',
   'LinkedIn': '💼',
   'TikTok': '🎵',
   'Pinterest': '📌'
