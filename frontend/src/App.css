@@ -3113,3 +3113,698 @@ body {
     box-shadow: 0 0 20px 4px rgba(34, 197, 94, 0.2);
   }
 }
+
+/* ============ MOBILE RESPONSIVE STYLES ============ */
+
+/* Base mobile styles - apply to all screens under 768px */
+@media (max-width: 768px) {
+  /* Header adjustments */
+  .header .container {
+    padding: 0 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .header-left {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .header-user {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .user-info {
+    text-align: left;
+    flex: 1;
+  }
+  
+  .logout-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  /* Main content padding */
+  .main-content {
+    padding: 1rem;
+  }
+  
+  /* Dashboard header */
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .company-badge {
+    width: 100%;
+  }
+  
+  .edit-button {
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Dashboard grid - already has mobile support but improve spacing */
+  .dashboard-grid {
+    gap: 1rem;
+  }
+  
+  /* Cards */
+  .stat-card, .action-card, .insights-card, .tips-card {
+    padding: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  /* Form inputs - make touch-friendly */
+  input[type="text"],
+  input[type="url"],
+  input[type="email"],
+  textarea,
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.875rem;
+    min-height: 44px; /* Touch target size */
+  }
+  
+  textarea {
+    min-height: 120px;
+  }
+  
+  /* Buttons - make touch-friendly */
+  .primary-button,
+  .secondary-button {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    min-height: 44px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .primary-button:last-child,
+  .secondary-button:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Form layout */
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+  
+  .form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  /* Form rows - stack on mobile */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* URL input group */
+  .url-input-group {
+    flex-direction: column;
+  }
+  
+  .url-input-group input {
+    width: 100%;
+  }
+  
+  .scrape-button {
+    width: 100%;
+  }
+  
+  /* Calendar header */
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .progress-tracker {
+    width: 100%;
+    align-items: flex-start;
+  }
+  
+  /* Calendar empty state */
+  .calendar-empty {
+    padding: 2rem 1rem;
+  }
+  
+  .calendar-empty h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* Frequency selector */
+  .frequency-selector {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .frequency-selector select {
+    width: 100%;
+  }
+  
+  /* Content Calendar mobile */
+  .calendar-posts {
+    gap: 1rem;
+  }
+  
+  .post-card {
+    padding: 1rem;
+  }
+  
+  .post-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .post-date {
+    font-size: 0.9rem;
+  }
+  
+  .post-theme {
+    font-size: 0.85rem;
+  }
+  
+  .post-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  
+  .post-image-idea,
+  .post-best-time {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+  
+  .post-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .post-actions button {
+    width: 100%;
+  }
+  
+  /* Action bar */
+  .action-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  
+  .action-bar button {
+    width: 100%;
+  }
+  
+  /* Tab navigation */
+  .tab-nav {
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .tab-nav button {
+    flex: 1;
+    min-width: 100px;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .tab-nav .pro-status {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+  /* Company setup form */
+  .setup-form {
+    padding: 1rem;
+  }
+  
+  .form-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Website scraper */
+  .website-scraper {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .website-scraper input {
+    flex: 1;
+  }
+  
+  .website-scraper button {
+    width: 100%;
+  }
+  
+  /* Scraped info display */
+  .scraped-info {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Test post result */
+  .test-post-result {
+    padding: 1rem;
+  }
+  
+  .test-post-content {
+    font-size: 0.9rem;
+  }
+  
+  /* Plan buttons */
+  .plan-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .plan-button {
+    width: 100%;
+    padding: 1.25rem;
+  }
+  
+  /* Insights and tips */
+  .parsed-content {
+    max-height: 250px;
+  }
+  
+  .content-section,
+  .tip-section {
+    margin-bottom: 1rem;
+  }
+  
+  .content-section h4,
+  .tip-section h4 {
+    font-size: 0.95rem;
+  }
+  
+  /* Error banner */
+  .error-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  
+  /* Welcome card */
+  .welcome-card {
+    padding: 1.5rem;
+  }
+  
+  .welcome-card h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* Progress overlay */
+  .generating-overlay {
+    padding: 1rem;
+  }
+  
+  .progress-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* Generating progress component */
+  .generating-progress {
+    padding: 1rem;
+  }
+  
+  .progress-card {
+    padding: 1.5rem;
+  }
+  
+  .progress-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .progress-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .progress-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .progress-steps {
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .progress-step {
+    padding: 0.875rem;
+    font-size: 0.9rem;
+  }
+  
+  .step-icon {
+    font-size: 1.1rem;
+    width: 24px;
+  }
+  
+  .progress-tip {
+    padding: 0.875rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Pricing page */
+  .billing-hero h1 {
+    font-size: 1.75rem;
+  }
+  
+  .billing-hero p {
+    font-size: 0.95rem;
+  }
+  
+  .billing-cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .billing-card {
+    padding: 1.5rem;
+  }
+  
+  .billing-card h3 {
+    font-size: 1.25rem;
+  }
+  
+  .billing-price {
+    font-size: 2rem;
+  }
+  
+  /* FAQ */
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .faq-item {
+    padding: 1rem;
+  }
+  
+  /* Post usage counter */
+  .post-usage-counter {
+    padding: 0.875rem;
+  }
+  
+  .usage-text {
+    font-size: 0.8rem;
+  }
+  
+  /* Badges */
+  .free-badge,
+  .starter-badge,
+  .pro-badge,
+  .pro-badge-small {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  /* Locked content */
+  .locked-content {
+    padding: 1rem;
+  }
+  
+  .locked-preview {
+    gap: 0.75rem;
+  }
+  
+  .blur-item {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+  
+  /* Upgrade prompts */
+  .upgrade-prompt {
+    padding: 1rem;
+  }
+  
+  .upgrade-button,
+  .upgrade-button-small {
+    width: 100%;
+    padding: 0.875rem 1rem;
+  }
+  
+  /* Choose plan prompt */
+  .choose-plan-prompt {
+    padding: 1rem;
+  }
+  
+  .choose-plan-prompt p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Extra small devices (phones in portrait) */
+@media (max-width: 480px) {
+  .header .container {
+    padding: 0.75rem;
+  }
+  
+  .main-content {
+    padding: 0.75rem;
+  }
+  
+  .stat-card, .action-card, .insights-card, .tips-card {
+    padding: 0.875rem;
+  }
+  
+  .stat-number {
+    font-size: 1.75rem;
+  }
+  
+  .dashboard-grid {
+    gap: 0.75rem;
+  }
+  
+  .primary-button,
+  .secondary-button {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+  
+  .post-card {
+    padding: 0.875rem;
+  }
+  
+  .billing-hero {
+    padding: 2rem 1rem;
+  }
+  
+  .billing-hero h1 {
+    font-size: 1.5rem;
+  }
+  
+  .onboarding-flow {
+    padding: 1rem;
+  }
+  
+  .onboarding-step {
+    padding: 0.625rem 1rem;
+    width: 100%;
+  }
+  
+  .step-label {
+    font-size: 0.85rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .parsed-content {
+    max-height: 200px;
+  }
+  
+  .insights-content,
+  .tips-content {
+    max-height: 200px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .primary-button:hover:not(:disabled),
+  .secondary-button:hover:not(:disabled) {
+    transform: none;
+  }
+  
+  /* Increase tap targets */
+  button,
+  a,
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better focus states for touch */
+  button:focus,
+  a:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+  /* Login page mobile */
+  .login-page {
+    padding: 1rem;
+  }
+  
+  .login-card {
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .login-card h1 {
+    font-size: 1.75rem;
+  }
+  
+  .login-card p {
+    font-size: 0.9rem;
+  }
+  
+  /* Google sign-in button mobile */
+  .google-signin-button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  
+  /* Past calendars */
+  .past-calendars-list {
+    gap: 1rem;
+  }
+  
+  .calendar-item {
+    padding: 1rem;
+  }
+  
+  .calendar-item h3 {
+    font-size: 1.1rem;
+  }
+  
+  /* New month setup */
+  .new-month-form {
+    padding: 1rem;
+  }
+  
+  .new-month-form h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* Brand analysis and strategy modals */
+  .modal-content {
+    padding: 1rem;
+    max-width: 95%;
+    max-height: 90vh;
+  }
+  
+  .modal-content h2 {
+    font-size: 1.25rem;
+  }
+  
+  .modal-content pre {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+  
+  /* Copy button */
+  .copy-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Checkbox group */
+  .checkbox-group {
+    padding: 0.75rem 0;
+  }
+  
+  /* Refresh buttons */
+  .refresh-button {
+    width: 100%;
+    padding: 0.875rem;
+  }
+  
+  /* Company badge */
+  .company-badge h2 {
+    font-size: 1.25rem;
+  }
+  
+  .platform-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  /* Stat detail */
+  .stat-detail {
+    font-size: 0.8rem;
+  }
+  
+  /* History note */
+  .history-note {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+  
+  /* Insights included note */
+  .insights-included-note {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+  
+  /* Locked text */
+  .locked-text {
+    font-size: 0.9rem;
+  }
+  
+  /* Raw content */
+  .raw-content {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  
+  /* Content section lists */
+  .content-section ul {
+    padding-left: 1.25rem;
+  }
+  
+  .content-section li {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Tip section */
+  .tip-section p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .user-avatar {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
