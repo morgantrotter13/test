@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_SECRET: Optional[str] = None
     
     # JWT Settings
-    JWT_SECRET: str = "change-this-secret-in-production"
+    JWT_SECRET: Optional[str] = None
     
     # Stripe Settings
     STRIPE_SECRET_KEY: Optional[str] = None

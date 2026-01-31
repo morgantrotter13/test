@@ -11,7 +11,9 @@ from sqlalchemy.orm import Session
 from app.database import get_db, User
 
 # JWT Settings
-JWT_SECRET = os.getenv("JWT_SECRET", "your-super-secret-key-change-in-production")
+JWT_SECRET = os.getenv("JWT_SECRET")
+if not JWT_SECRET:
+    raise ValueError("JWT_SECRET environment variable must be set")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 24 * 7  # 1 week
 
@@ -124,3 +126,13 @@ def get_or_create_user(db: Session, google_user: dict) -> User:
         db.refresh(user)
     
     return user
+
+
+def get_user_from_token(token: str, db: Session) -> Optional[User]:
+    """Get user from token without raising exceptions. Returns None if invalid."""
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        user = db.query(User).filter(User.id == payload["user_id"]).first()
+        return user
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return None

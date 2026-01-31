@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 
-const GOOGLE_CLIENT_ID = '64312184744-3i6eevl4gtqpc8pc2edeojt26dtfpmoc.apps.googleusercontent.com'
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 
 function GoogleSignIn({ onSuccess }) {
   const { loginWithGoogle } = useAuth()

@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 
-# Load your OpenAI key
+# Load OpenAI key from environment variable
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def run_brain(input_data):

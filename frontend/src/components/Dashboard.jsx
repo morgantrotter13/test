@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { API_V1 } from '../config'
+import { useAuth } from '../contexts/AuthContext'
 
 function Dashboard({ 
   companyProfile, 
@@ -19,12 +20,14 @@ function Dashboard({
   onUpgradeClick,
   onGenerateTestPost
 }) {
+  const { token } = useAuth()
   const [tips, setTips] = useState(personalizedTips?.content || null)
   const [insights, setInsights] = useState(industryInsights?.content || null)
   const [loadingTips, setLoadingTips] = useState(false)
   const [loadingInsights, setLoadingInsights] = useState(false)
   const [testPost, setTestPost] = useState(null)
   const [loadingTestPost, setLoadingTestPost] = useState(false)
+  const [postUsage, setPostUsage] = useState(null)
   const [hasUsedTestPost, setHasUsedTestPost] = useState(
     localStorage.getItem('hasUsedTestPost') === 'true'
   )
@@ -34,6 +37,30 @@ function Dashboard({
     if (industryInsights?.content) setInsights(industryInsights.content)
     if (personalizedTips?.content) setTips(personalizedTips.content)
   }, [industryInsights, personalizedTips])
+
+  // Fetch post usage on mount and after generating
+  useEffect(() => {
+    fetchPostUsage()
+  }, [token])
+
+  const fetchPostUsage = async () => {
+    try {
+      const headers = { 'Content-Type': 'application/json' }
+      if (token) headers['Authorization'] = `Bearer ${token}`
+      
+      const response = await fetch(`${API_V1}/content/post-usage`, { headers })
+      const data = await response.json()
+      setPostUsage(data)
+      
+      // Sync with local storage for free users
+      if (data.free_post_used) {
+        setHasUsedTestPost(true)
+        localStorage.setItem('hasUsedTestPost', 'true')
+      }
+    } catch (err) {
+      console.error('Error fetching post usage:', err)
+    }
+  }
 
   const fetchTips = async () => {
     if (!companyProfile) return
@@ -83,25 +110,41 @@ function Dashboard({
     }
   }
 
-  // Generate a single test post (free feature)
+  // Generate a single post
   const generateTestPost = async () => {
     if (!companyProfile) return
     setLoadingTestPost(true)
     try {
+      const headers = { 'Content-Type': 'application/json' }
+      if (token) headers['Authorization'] = `Bearer ${token}`
+
       const response = await fetch(`${API_V1}/content/generate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
           ...companyProfile,
+          post_frequency: '3',
+          content_themes: companyProfile.content_goals,
           post_topic: 'engaging post about your business',
           post_type: 'promotional',
           include_cta: true
         })
       })
+      
+      if (response.status === 403) {
+        const error = await response.json()
+        alert(error.detail || 'Post limit reached. Please upgrade your plan.')
+        onUpgradeClick()
+        return
+      }
+      
       const data = await response.json()
       setTestPost(data.result)
       setHasUsedTestPost(true)
       localStorage.setItem('hasUsedTestPost', 'true')
+      
+      // Refresh usage after generating
+      fetchPostUsage()
     } catch (err) {
       console.error('Error generating test post:', err)
     } finally {
@@ -235,7 +278,7 @@ function Dashboard({
             <h3>🎁 Try a Sample Post</h3>
             <p>
               Generate a single AI-powered post to see the quality of our content. 
-              {hasUsedTestPost ? " You've used your free preview!" : " One free preview available!"}
+              {(postUsage?.free_post_used || hasUsedTestPost) ? " You've used your free preview!" : " One free preview available!"}
             </p>
             
             {testPost ? (
@@ -244,20 +287,45 @@ function Dashboard({
                   <strong>Your Sample Post:</strong>
                   <p>{testPost}</p>
                 </div>
-                <div className="upgrade-prompt">
-                  <p>🔥 Like what you see? Get started with a plan!</p>
-                  <button className="upgrade-button" onClick={onUpgradeClick}>
-                    View Plans →
+                <div className="choose-plan-prompt">
+                  <p>🔥 Love it? Choose a plan to keep generating!</p>
+                  <div className="plan-buttons">
+                    <button className="plan-button starter" onClick={onUpgradeClick}>
+                      <span className="plan-name">🌱 Starter</span>
+                      <span className="plan-price">$29.99/mo</span>
+                      <span className="plan-desc">4 posts/month</span>
+                    </button>
+                    <button className="plan-button pro" onClick={onUpgradeClick}>
+                      <span className="plan-name">⚡ Pro</span>
+                      <span className="plan-price">$99.99/mo</span>
+                      <span className="plan-desc">Unlimited + insights</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (postUsage?.free_post_used || hasUsedTestPost) ? (
+              <div className="choose-plan-prompt">
+                <p>You've used your free preview. Choose a plan to continue:</p>
+                <div className="plan-buttons">
+                  <button className="plan-button starter" onClick={onUpgradeClick}>
+                    <span className="plan-name">🌱 Starter</span>
+                    <span className="plan-price">$29.99/mo</span>
+                    <span className="plan-desc">4 posts/month</span>
+                  </button>
+                  <button className="plan-button pro" onClick={onUpgradeClick}>
+                    <span className="plan-name">⚡ Pro</span>
+                    <span className="plan-price">$99.99/mo</span>
+                    <span className="plan-desc">Unlimited + insights</span>
                   </button>
                 </div>
               </div>
             ) : (
               <button 
-                className="secondary-button"
+                className="primary-button free-post-button"
                 onClick={generateTestPost}
-                disabled={loadingTestPost || hasUsedTestPost}
+                disabled={loadingTestPost}
               >
-                {loadingTestPost ? '⏳ Generating...' : hasUsedTestPost ? '✓ Preview Used' : '🎯 Generate Free Sample'}
+                {loadingTestPost ? '⏳ Generating your post...' : '🎯 Generate My Free Post'}
               </button>
             )}
           </div>
@@ -268,20 +336,44 @@ function Dashboard({
           <div className="action-card starter-tier">
             <div className="starter-badge">🌱 Starter</div>
             <h3>📝 Generate Posts</h3>
-            <p>You have 4 AI-generated posts per month with your Starter plan.</p>
             
-            <button 
-              className="primary-button"
-              onClick={generateTestPost}
-              disabled={loadingTestPost}
-            >
-              {loadingTestPost ? '⏳ Generating...' : '✨ Generate a Post'}
-            </button>
+            {/* Post Usage Counter */}
+            {postUsage && (
+              <div className="post-usage-counter">
+                <div className="usage-bar">
+                  <div 
+                    className="usage-fill" 
+                    style={{ width: `${(postUsage.posts_used / 4) * 100}%` }}
+                  />
+                </div>
+                <span className="usage-text">
+                  {postUsage.posts_remaining > 0 
+                    ? `${postUsage.posts_remaining} of 4 posts remaining this month`
+                    : '0 posts remaining - resets next month'
+                  }
+                </span>
+              </div>
+            )}
+            
+            {postUsage?.posts_remaining > 0 ? (
+              <button 
+                className="primary-button"
+                onClick={generateTestPost}
+                disabled={loadingTestPost}
+              >
+                {loadingTestPost ? '⏳ Generating...' : '✨ Generate a Post'}
+              </button>
+            ) : (
+              <div className="limit-reached">
+                <p>⚠️ You've used all 4 posts this month</p>
+                <p className="limit-subtext">Resets on the 1st, or upgrade to Pro for unlimited!</p>
+              </div>
+            )}
 
             {testPost && (
               <div className="test-post-result">
                 <div className="test-post-content">
-                  <strong>Your Post:</strong>
+                  <strong>Your Latest Post:</strong>
                   <p>{testPost}</p>
                 </div>
               </div>
