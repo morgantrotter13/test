@@ -3114,6 +3114,206 @@ body {
   }
 }
 
+/* ============ SAMPLE POST SHOWCASE ============ */
+
+.sample-post-showcase {
+  margin-top: 1rem;
+}
+
+.sample-post-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.sample-post-card.compact {
+  margin-bottom: 1rem;
+}
+
+.sample-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+}
+
+.sample-post-platform {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.platform-icon {
+  font-size: 1.5rem;
+}
+
+.platform-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.sample-post-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.brand-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.sample-post-image-placeholder {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.image-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.image-text {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sample-post-caption {
+  padding: 1.25rem;
+  background: white;
+}
+
+.sample-post-caption p {
+  color: #1e293b;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.sample-post-actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+}
+
+.copy-post-btn,
+.regenerate-post-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.copy-post-btn {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+}
+
+.copy-post-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.regenerate-post-btn {
+  background: white;
+  color: #6366f1;
+  border: 2px solid #6366f1;
+}
+
+.regenerate-post-btn:hover:not(:disabled) {
+  background: #6366f1;
+  color: white;
+}
+
+.regenerate-post-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sample-post-engagement {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.875rem 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.sample-post-success {
+  text-align: center;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.sample-post-success h4 {
+  color: #059669;
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+}
+
+.sample-post-success p {
+  color: #047857;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Animation for post appearing */
+.sample-post-card {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ============ MOBILE RESPONSIVE STYLES ============ */
 
 /* Base mobile styles - apply to all screens under 768px */
@@ -3386,6 +3586,62 @@ body {
   
   .test-post-content {
     font-size: 0.9rem;
+  }
+  
+  /* Sample post card mobile */
+  .sample-post-card {
+    border-radius: 12px;
+  }
+  
+  .sample-post-header {
+    padding: 0.875rem 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  
+  .sample-post-image-placeholder {
+    padding: 2rem 1rem;
+  }
+  
+  .image-icon {
+    font-size: 2.5rem;
+  }
+  
+  .sample-post-caption {
+    padding: 1rem;
+  }
+  
+  .sample-post-caption p {
+    font-size: 0.9rem;
+  }
+  
+  .sample-post-actions {
+    flex-direction: column;
+    padding: 0.875rem 1rem;
+  }
+  
+  .copy-post-btn,
+  .regenerate-post-btn {
+    width: 100%;
+  }
+  
+  .sample-post-engagement {
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .sample-post-success {
+    padding: 1rem;
+  }
+  
+  .sample-post-success h4 {
+    font-size: 1rem;
+  }
+  
+  .sample-post-success p {
+    font-size: 0.85rem;
   }
   
   /* Plan buttons */

@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react'
 import { API_V1 } from '../config'
 import { useAuth } from '../contexts/AuthContext'
 
+// Platform icons mapping
+const platformIcons = {
+  'Instagram': '📸',
+  'Facebook': '👍',
+  'Twitter': '🐦',
+  'LinkedIn': '💼',
+  'TikTok': '🎵',
+  'Pinterest': '📌'
+}
+
 function Dashboard({ 
   companyProfile, 
   calendar, 
@@ -282,11 +292,52 @@ function Dashboard({
             </p>
             
             {testPost ? (
-              <div className="test-post-result">
-                <div className="test-post-content">
-                  <strong>Your Sample Post:</strong>
-                  <p>{testPost}</p>
+              <div className="sample-post-showcase">
+                <div className="sample-post-card">
+                  <div className="sample-post-header">
+                    <div className="sample-post-platform">
+                      <span className="platform-icon">{platformIcons[companyProfile?.platform] || '📱'}</span>
+                      <span className="platform-name">{companyProfile?.platform || 'Social Media'}</span>
+                    </div>
+                    <div className="sample-post-brand">
+                      <div className="brand-avatar">{companyProfile?.brand_name?.charAt(0) || 'B'}</div>
+                      <span className="brand-name">{companyProfile?.brand_name || 'Your Brand'}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="sample-post-image-placeholder">
+                    <span className="image-icon">🖼️</span>
+                    <span className="image-text">Add your photo here</span>
+                  </div>
+                  
+                  <div className="sample-post-caption">
+                    <p>{testPost}</p>
+                  </div>
+                  
+                  <div className="sample-post-actions">
+                    <button 
+                      className="copy-post-btn"
+                      onClick={() => {
+                        navigator.clipboard.writeText(testPost)
+                        alert('Caption copied to clipboard!')
+                      }}
+                    >
+                      📋 Copy Caption
+                    </button>
+                  </div>
+                  
+                  <div className="sample-post-engagement">
+                    <span>❤️ 0</span>
+                    <span>💬 0</span>
+                    <span>📤 0</span>
+                  </div>
                 </div>
+                
+                <div className="sample-post-success">
+                  <h4>✨ Your AI-Generated Post is Ready!</h4>
+                  <p>Copy this caption and use it on your {companyProfile?.platform || 'social media'}. Want more posts like this?</p>
+                </div>
+                
                 <div className="choose-plan-prompt">
                   <p>🔥 Love it? Choose a plan to keep generating!</p>
                   <div className="plan-buttons">
@@ -371,10 +422,38 @@ function Dashboard({
             )}
 
             {testPost && (
-              <div className="test-post-result">
-                <div className="test-post-content">
-                  <strong>Your Latest Post:</strong>
+              <div className="sample-post-card compact">
+                <div className="sample-post-header">
+                  <div className="sample-post-platform">
+                    <span className="platform-icon">{platformIcons[companyProfile?.platform] || '📱'}</span>
+                    <span className="platform-name">{companyProfile?.platform || 'Social Media'}</span>
+                  </div>
+                </div>
+                
+                <div className="sample-post-caption">
                   <p>{testPost}</p>
+                </div>
+                
+                <div className="sample-post-actions">
+                  <button 
+                    className="copy-post-btn"
+                    onClick={() => {
+                      navigator.clipboard.writeText(testPost)
+                      alert('Caption copied to clipboard!')
+                    }}
+                  >
+                    📋 Copy Caption
+                  </button>
+                  <button 
+                    className="regenerate-post-btn"
+                    onClick={() => {
+                      setTestPost(null)
+                      generateTestPost()
+                    }}
+                    disabled={loadingTestPost || (postUsage?.posts_remaining <= 0)}
+                  >
+                    🔄 Generate Another
+                  </button>
                 </div>
               </div>
             )}
