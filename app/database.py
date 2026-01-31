@@ -42,11 +42,6 @@ class User(Base):
     subscription_plan = Column(String(50), nullable=True)  # starter, pro
     subscription_end = Column(DateTime, nullable=True)
     
-    # Post usage tracking
-    free_post_used = Column(Boolean, default=False)  # Has used their 1 free post
-    posts_generated_this_month = Column(Integer, default=0)  # Count for Starter plan
-    post_count_reset_month = Column(String(20), nullable=True)  # e.g., "2026-01" to track reset
-    
     # Relationships
     company_profile = relationship("CompanyProfile", back_populates="user", uselist=False)
     calendars = relationship("Calendar", back_populates="user", order_by="desc(Calendar.created_at)")

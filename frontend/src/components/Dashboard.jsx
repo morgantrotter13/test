@@ -36,7 +36,6 @@ function Dashboard({
   const [loadingInsights, setLoadingInsights] = useState(false)
   const [testPost, setTestPost] = useState(null)
   const [loadingTestPost, setLoadingTestPost] = useState(false)
-  const [postUsage, setPostUsage] = useState(null)
   const [hasUsedTestPost, setHasUsedTestPost] = useState(
     localStorage.getItem('hasUsedTestPost') === 'true'
   )
@@ -46,30 +45,6 @@ function Dashboard({
     if (industryInsights?.content) setInsights(industryInsights.content)
     if (personalizedTips?.content) setTips(personalizedTips.content)
   }, [industryInsights, personalizedTips])
-
-  // Fetch post usage on mount and after generating
-  useEffect(() => {
-    fetchPostUsage()
-  }, [token])
-
-  const fetchPostUsage = async () => {
-    try {
-      const headers = { 'Content-Type': 'application/json' }
-      if (token) headers['Authorization'] = `Bearer ${token}`
-      
-      const response = await fetch(`${API_V1}/content/post-usage`, { headers })
-      const data = await response.json()
-      setPostUsage(data)
-      
-      // Sync with local storage for free users
-      if (data.free_post_used) {
-        setHasUsedTestPost(true)
-        localStorage.setItem('hasUsedTestPost', 'true')
-      }
-    } catch (err) {
-      console.error('Error fetching post usage:', err)
-    }
-  }
 
   const fetchTips = async () => {
     if (!companyProfile) return
@@ -124,12 +99,9 @@ function Dashboard({
     if (!companyProfile) return
     setLoadingTestPost(true)
     try {
-      const headers = { 'Content-Type': 'application/json' }
-      if (token) headers['Authorization'] = `Bearer ${token}`
-
       const response = await fetch(`${API_V1}/content/generate`, {
         method: 'POST',
-        headers,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...companyProfile,
           post_frequency: '3',
@@ -140,20 +112,10 @@ function Dashboard({
         })
       })
       
-      if (response.status === 403) {
-        const error = await response.json()
-        alert(error.detail || 'Post limit reached. Please upgrade your plan.')
-        onUpgradeClick()
-        return
-      }
-      
       const data = await response.json()
       setTestPost(data.result)
       setHasUsedTestPost(true)
       localStorage.setItem('hasUsedTestPost', 'true')
-      
-      // Refresh usage after generating
-      fetchPostUsage()
     } catch (err) {
       console.error('Error generating test post:', err)
     } finally {
@@ -287,7 +249,7 @@ function Dashboard({
             <h3>🎁 Try a Sample Post</h3>
             <p>
               Generate a single AI-powered post to see the quality of our content. 
-              {(postUsage?.free_post_used || hasUsedTestPost) ? " You've used your free preview!" : " One free preview available!"}
+              {hasUsedTestPost ? " You've used your free preview!" : " One free preview available!"}
             </p>
             
             {testPost ? (
@@ -353,7 +315,7 @@ function Dashboard({
                   </div>
                 </div>
               </div>
-            ) : (postUsage?.free_post_used || hasUsedTestPost) ? (
+            ) : hasUsedTestPost ? (
               <div className="choose-plan-prompt">
                 <p>You've used your free preview. Choose a plan to continue:</p>
                 <div className="plan-buttons">
@@ -386,39 +348,15 @@ function Dashboard({
           <div className="action-card starter-tier">
             <div className="starter-badge">🌱 Starter</div>
             <h3>📝 Generate Posts</h3>
+            <p>Generate AI-powered social media posts with your Starter plan.</p>
             
-            {/* Post Usage Counter */}
-            {postUsage && (
-              <div className="post-usage-counter">
-                <div className="usage-bar">
-                  <div 
-                    className="usage-fill" 
-                    style={{ width: `${(postUsage.posts_used / 4) * 100}%` }}
-                  />
-                </div>
-                <span className="usage-text">
-                  {postUsage.posts_remaining > 0 
-                    ? `${postUsage.posts_remaining} of 4 posts remaining this month`
-                    : '0 posts remaining - resets next month'
-                  }
-                </span>
-              </div>
-            )}
-            
-            {postUsage?.posts_remaining > 0 ? (
-              <button 
-                className="primary-button"
-                onClick={generateTestPost}
-                disabled={loadingTestPost}
-              >
-                {loadingTestPost ? '⏳ Generating...' : '✨ Generate a Post'}
-              </button>
-            ) : (
-              <div className="limit-reached">
-                <p>⚠️ You've used all 4 posts this month</p>
-                <p className="limit-subtext">Resets on the 1st, or upgrade to Pro for unlimited!</p>
-              </div>
-            )}
+            <button 
+              className="primary-button"
+              onClick={generateTestPost}
+              disabled={loadingTestPost}
+            >
+              {loadingTestPost ? '⏳ Generating...' : '✨ Generate a Post'}
+            </button>
 
             {testPost && (
               <div className="sample-post-card compact">
@@ -449,7 +387,7 @@ function Dashboard({
                       setTestPost(null)
                       generateTestPost()
                     }}
-                    disabled={loadingTestPost || (postUsage?.posts_remaining <= 0)}
+                    disabled={loadingTestPost}
                   >
                     🔄 Generate Another
                   </button>
