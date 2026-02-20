@@ -192,7 +192,9 @@ BRAND_VALUES: [3-5 core values or qualities they emphasize]
 CONTENT_GOALS: [What social media goals would benefit this business - be specific]
 TONE: [One of: professional, casual, playful, authoritative, inspirational, educational - pick the best fit]
 
-Be specific and tailored to THIS business. Don't use generic filler text."""
+Be specific and tailored to THIS business. Don't use generic filler text.
+
+IMPORTANT: Do NOT use any markdown formatting (no **, ##, backticks, etc). Write in plain text only."""
 
     result = call_llm(prompt, temperature=0.3, max_tokens=600)
     

@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+---
+# No Markdown in AI-Generated Post Output
+
+All AI-generated content (posts, captions, calendars) must be plain text only. Never include markdown formatting in post output.
+
+## Forbidden in post content:
+- **bold** syntax (double asterisks)
+- *italic* syntax (single asterisks or underscores)
+- Heading syntax (hash symbols)
+- Code syntax (backticks)
+- Link syntax
+- Blockquote syntax (greater than signs)
+- Horizontal rules (triple dashes)
+
+## Where this applies:
+- LLM prompts in content_planner.py — always include "Do NOT use any markdown formatting (no **, ##, backticks, etc). Write in plain text only." in every prompt that generates user-facing content.
+- brain.py — same rule for single post generation.
+- website_scraper.py — same rule for inferred profile output.
+- The clean_markdown() function in content_planner.py should strip any remaining markdown as a safety net.
+
+## Why:
+Post content is displayed directly in the UI and copied to clipboard for use on social media platforms. Markdown symbols like ** render as literal characters and look broken.

@@ -28,7 +28,9 @@ Content Themes: {input_data['content_themes']}
 Post Frequency: {input_data['post_frequency']}
 Include CTA: {input_data['include_cta']}
 
-Generate ONE ready-to-post {input_data['post_type']} social media post below:
+Generate ONE ready-to-post {input_data['post_type']} social media post below.
+
+IMPORTANT: Do NOT use any markdown formatting (no **, ##, backticks, etc). Write in plain text only.
 """
 
     try:
@@ -40,7 +42,8 @@ Generate ONE ready-to-post {input_data['post_type']} social media post below:
             max_tokens=settings.OPENAI_MAX_TOKENS,
             timeout=30.0
         )
-        return response.choices[0].message.content
+        from app.prompt_engine.backend.content_planner import clean_markdown
+        return clean_markdown(response.choices[0].message.content)
     except Exception as e:
         print(f"Error calling OpenAI: {e}")
         return f"⚠️ Error generating content: {str(e)}"
