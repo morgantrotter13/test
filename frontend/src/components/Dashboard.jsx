@@ -23,11 +23,14 @@ function Dashboard({
   const [insights, setInsights] = useState(industryInsights?.content || null)
   const [loadingTips, setLoadingTips] = useState(false)
   const [loadingInsights, setLoadingInsights] = useState(false)
-  const [testPost, setTestPost] = useState(null)
+  const [testPost, setTestPost] = useState(
+    localStorage.getItem('testPostContent') || null
+  )
   const [loadingTestPost, setLoadingTestPost] = useState(false)
   const [hasUsedTestPost, setHasUsedTestPost] = useState(
     localStorage.getItem('hasUsedTestPost') === 'true'
   )
+  const [copied, setCopied] = useState(false)
 
   // Sync with saved insights/tips from props
   useEffect(() => {
@@ -103,6 +106,7 @@ function Dashboard({
       setTestPost(data.result)
       setHasUsedTestPost(true)
       localStorage.setItem('hasUsedTestPost', 'true')
+      localStorage.setItem('testPostContent', data.result)
     } catch (err) {
       console.error('Error generating test post:', err)
     } finally {
@@ -225,60 +229,38 @@ function Dashboard({
             
             {testPost ? (
               <div className="sample-post-showcase">
-                <div className="sample-post-card">
-                  <div className="sample-post-header">
-                    <div className="sample-post-platform">
-                      <span className="platform-name">{companyProfile?.platform || 'Social Media'}</span>
-                    </div>
-                    <div className="sample-post-brand">
-                      <div className="brand-avatar">{companyProfile?.brand_name?.charAt(0) || 'B'}</div>
-                      <span className="brand-name">{companyProfile?.brand_name || 'Your Brand'}</span>
-                    </div>
+                <div className="sample-post-result">
+                  <div className="sample-post-result-header">
+                    <span className="result-badge">✨ Your Free Post</span>
+                    <span className="result-platform">{companyProfile?.platform || 'Social Media'}</span>
                   </div>
                   
-                  <div className="sample-post-image-placeholder">
-                    <span className="image-text">Add your photo here</span>
-                  </div>
-                  
-                  <div className="sample-post-caption">
+                  <div className="sample-post-content">
                     <p>{testPost}</p>
                   </div>
                   
-                  <div className="sample-post-actions">
+                  <div className="sample-post-toolbar">
                     <button 
-                      className="copy-post-btn"
+                      className={`copy-post-btn ${copied ? 'copied' : ''}`}
                       onClick={() => {
                         navigator.clipboard.writeText(testPost)
-                        alert('Caption copied to clipboard.')
+                        setCopied(true)
+                        setTimeout(() => setCopied(false), 2000)
                       }}
                     >
-                      📋 Copy Caption
+                      {copied ? '✓ Copied!' : '📋 Copy Caption'}
                     </button>
                   </div>
                 </div>
                 
-                <div className="sample-post-success">
-                  <h4>✨ Your AI-Generated Post is Ready</h4>
-                  <p>Copy this caption and use it on your {companyProfile?.platform || 'social media'}. Want a full content system?</p>
-                </div>
-                
-                <div className="choose-plan-prompt">
-                  <p>Upgrade to Growth to unlock unlimited posts, full calendars, and insights.</p>
+                <div className="sample-post-upsell">
+                  <p>Like what you see? Unlock unlimited posts, full monthly calendars, and AI-powered insights.</p>
                   <button className="plan-button pro" onClick={onUpgradeClick}>
                     <span className="plan-name">⚡ Growth</span>
                     <span className="plan-price">$99/mo</span>
                     <span className="plan-desc">Unlimited content system</span>
                   </button>
                 </div>
-              </div>
-            ) : hasUsedTestPost ? (
-              <div className="choose-plan-prompt">
-                <p>You've used your free post. Upgrade to Growth for unlimited access:</p>
-                <button className="plan-button pro" onClick={onUpgradeClick}>
-                  <span className="plan-name">⚡ Growth</span>
-                  <span className="plan-price">$99/mo</span>
-                  <span className="plan-desc">Unlimited content system</span>
-                </button>
               </div>
             ) : (
               <button 
