@@ -29,6 +29,9 @@ function Dashboard({
   const [testImageIdea, setTestImageIdea] = useState(
     localStorage.getItem('testImageIdea') || null
   )
+  const [testReasoning, setTestReasoning] = useState(
+    localStorage.getItem('testReasoning') || null
+  )
   const [loadingTestPost, setLoadingTestPost] = useState(false)
   const [hasUsedTestPost, setHasUsedTestPost] = useState(
     localStorage.getItem('hasUsedTestPost') === 'true'
@@ -108,10 +111,12 @@ function Dashboard({
       const data = await response.json()
       setTestPost(data.result)
       setTestImageIdea(data.image_idea || '')
+      setTestReasoning(data.reasoning || '')
       setHasUsedTestPost(true)
       localStorage.setItem('hasUsedTestPost', 'true')
       localStorage.setItem('testPostContent', data.result)
       localStorage.setItem('testImageIdea', data.image_idea || '')
+      localStorage.setItem('testReasoning', data.reasoning || '')
     } catch (err) {
       console.error('Error generating test post:', err)
     } finally {
@@ -248,6 +253,13 @@ function Dashboard({
                     <div className="sample-post-image-idea">
                       <span className="image-idea-label">📸 Suggested Image</span>
                       <p>{testImageIdea}</p>
+                    </div>
+                  )}
+
+                  {testReasoning && (
+                    <div className="sample-post-reasoning">
+                      <span className="reasoning-label">🎯 Why This Works</span>
+                      <p>{testReasoning}</p>
                     </div>
                   )}
                   
