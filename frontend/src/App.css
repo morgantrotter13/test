@@ -3344,6 +3344,30 @@ body {
   white-space: pre-wrap;
 }
 
+.sample-post-image-idea {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--border-light);
+  background: var(--teal-50);
+}
+
+.image-idea-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.sample-post-image-idea p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+
 .sample-post-toolbar {
   display: flex;
   gap: 0.75rem;

@@ -8,7 +8,7 @@ client = OpenAI(api_key=settings.OPENAI_API_KEY)
 def run_brain(input_data):
     """
     input_data: dictionary with all frontend form fields
-    Returns: AI-generated social media post
+    Returns: dict with post content and image suggestion
     """
 
     # Build a full prompt for AI using all fields
@@ -28,7 +28,13 @@ Content Themes: {input_data['content_themes']}
 Post Frequency: {input_data['post_frequency']}
 Include CTA: {input_data['include_cta']}
 
-Generate ONE ready-to-post {input_data['post_type']} social media post below.
+Provide your response in this exact format:
+
+POST:
+[The complete post, ready to copy-paste. Include 3-5 hashtags at the end.]
+
+IMAGE IDEA:
+[One sentence describing a simple photo the business owner can take with their phone in 5 minutes]
 
 IMPORTANT: Do NOT use any markdown formatting (no **, ##, backticks, etc). Write in plain text only. Use emojis sparingly — maximum 1-2 per post, only if they add meaning. Never start with an emoji or use multiple in a row.
 """
@@ -43,7 +49,26 @@ IMPORTANT: Do NOT use any markdown formatting (no **, ##, backticks, etc). Write
             timeout=30.0
         )
         from app.prompt_engine.backend.content_planner import clean_markdown
-        return clean_markdown(response.choices[0].message.content)
+        result = clean_markdown(response.choices[0].message.content)
+        
+        # Parse post and image idea
+        post_content = result
+        image_idea = ""
+        
+        if "IMAGE IDEA:" in result:
+            parts = result.split("IMAGE IDEA:")
+            post_content = parts[0].replace("POST:", "").strip()
+            image_idea = parts[1].strip() if len(parts) > 1 else ""
+        elif "POST:" in result:
+            post_content = result.replace("POST:", "").strip()
+        
+        return {
+            "post": clean_markdown(post_content),
+            "image_idea": clean_markdown(image_idea) or "Take a photo that showcases your product or workspace with natural lighting."
+        }
     except Exception as e:
         print(f"Error calling OpenAI: {e}")
-        return f"⚠️ Error generating content: {str(e)}"
+        return {
+            "post": f"Error generating content: {str(e)}",
+            "image_idea": ""
+        }

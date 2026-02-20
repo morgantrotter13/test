@@ -105,7 +105,14 @@ def scrape_website_endpoint(request: WebsiteRequest):
 def generate_content(request: ContentRequest):
     """Generate a single social media post using AI."""
     result = run_brain(request.dict())
-    return {"result": result}
+    # result is now a dict with "post" and "image_idea"
+    if isinstance(result, dict):
+        return {
+            "result": result.get("post", ""),
+            "image_idea": result.get("image_idea", "")
+        }
+    # Backward compatibility if result is a string
+    return {"result": result, "image_idea": ""}
 
 
 @router.post("/calendar")
