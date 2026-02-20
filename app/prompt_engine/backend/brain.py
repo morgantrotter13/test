@@ -39,7 +39,12 @@ IMAGE IDEA:
 WHY THIS WORKS:
 [2-3 sentences explaining why this post will resonate with their target audience. Reference their specific industry, audience, and goals. Be strategic and specific — not generic.]
 
-IMPORTANT: Do NOT use any markdown formatting (no **, ##, backticks, etc). Write in plain text only. Use emojis sparingly — maximum 1-2 per post, only if they add meaning. Never start with an emoji or use multiple in a row.
+CRITICAL RULES:
+- Do NOT invent events, promotions, sales, dates, statistics, testimonials, or specific details that were not provided in the brand info above. Only reference what is real and verifiable from the data given.
+- If no specific event or promotion was mentioned, do NOT create one. Instead, write an evergreen post that highlights what the business actually does, its values, or its expertise.
+- Keep it authentic — write as if you are the business owner, not a marketer making things up.
+- Do NOT use any markdown formatting (no **, ##, backticks, etc). Write in plain text only.
+- Use emojis sparingly — maximum 1-2 per post, only if they add meaning. Never start with an emoji or use multiple in a row.
 """
 
     try:

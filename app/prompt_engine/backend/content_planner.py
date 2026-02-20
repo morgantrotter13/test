@@ -259,6 +259,8 @@ IMPORTANT:
 - Keep the post SHORT and punchy - optimized for {platform}
 - Write it exactly as it should appear (ready to copy-paste)
 - Make sure content is RELEVANT to their actual business
+- Do NOT invent events, promotions, sales, dates, statistics, testimonials, or specific details that were not provided. Only reference what is real and verifiable from the company data given.
+- If no specific event or promotion was mentioned, write evergreen content that highlights what the business actually does, its values, or its expertise.
 - No markdown formatting
 - Use emojis sparingly — maximum 1-2 per post, only if they add meaning. Never start with an emoji or use multiple in a row.
 - Hashtags at the end (3-5 relevant ones)"""
@@ -578,7 +580,12 @@ IMAGE IDEA:
 BEST TIME:
 [Just day and time like "Tuesday 10am"]
 
-IMPORTANT: No markdown. Keep post SHORT and optimized for {platform}. Make it different from the original. Use emojis sparingly — maximum 1-2 per post, only if they add meaning.
+IMPORTANT:
+- No markdown formatting.
+- Keep post SHORT and optimized for {platform}. Make it different from the original.
+- Use emojis sparingly — maximum 1-2 per post, only if they add meaning.
+- Do NOT invent events, promotions, sales, dates, statistics, or testimonials that were not provided. Only reference real details from the business info above.
+- Write authentically as if you are the business owner.
 """
 
     result = call_llm(prompt, temperature=0.8, max_tokens=500)
