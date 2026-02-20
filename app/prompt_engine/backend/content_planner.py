@@ -260,6 +260,7 @@ IMPORTANT:
 - Write it exactly as it should appear (ready to copy-paste)
 - Make sure content is RELEVANT to their actual business
 - No markdown formatting
+- Use emojis sparingly — maximum 1-2 per post, only if they add meaning. Never start with an emoji or use multiple in a row.
 - Hashtags at the end (3-5 relevant ones)"""
     
     result = call_llm(full_prompt, temperature=0.75, max_tokens=600)
@@ -577,7 +578,7 @@ IMAGE IDEA:
 BEST TIME:
 [Just day and time like "Tuesday 10am"]
 
-IMPORTANT: No markdown. Keep post SHORT and optimized for {platform}. Make it different from the original.
+IMPORTANT: No markdown. Keep post SHORT and optimized for {platform}. Make it different from the original. Use emojis sparingly — maximum 1-2 per post, only if they add meaning.
 """
 
     result = call_llm(prompt, temperature=0.8, max_tokens=500)

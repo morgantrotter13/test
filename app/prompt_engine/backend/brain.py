@@ -30,7 +30,7 @@ Include CTA: {input_data['include_cta']}
 
 Generate ONE ready-to-post {input_data['post_type']} social media post below.
 
-IMPORTANT: Do NOT use any markdown formatting (no **, ##, backticks, etc). Write in plain text only.
+IMPORTANT: Do NOT use any markdown formatting (no **, ##, backticks, etc). Write in plain text only. Use emojis sparingly — maximum 1-2 per post, only if they add meaning. Never start with an emoji or use multiple in a row.
 """
 
     try:

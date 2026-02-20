@@ -1,0 +1,25 @@
+---
+alwaysApply: true
+---
+# Minimal Emojis in AI-Generated Content
+
+AI-generated posts and content should use emojis sparingly. The tone is clear, confident, and professional — not playful or salesy.
+
+## Rules:
+- Maximum 1-2 emojis per post, if any
+- Never start a post with an emoji
+- Never use multiple emojis in a row (e.g., 🔥🚀✨)
+- Emojis should add meaning, not decoration
+- When in doubt, leave the emoji out
+
+## Acceptable uses:
+- A single emoji to reinforce a CTA (e.g., "Book your spot today 📅")
+- A relevant emoji to set context (e.g., "New menu dropping Friday 🍽️")
+
+## Where this applies:
+- All LLM prompts that generate user-facing posts in content_planner.py
+- Single post generation in brain.py
+- Any AI-generated captions, calendars, or content output
+
+## Note:
+This applies to AI-generated post OUTPUT only — not to the Gridly app UI, which has its own intentional emoji branding system (⚡📅📋📊🎯💡✨).
