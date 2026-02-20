@@ -9,17 +9,18 @@ import httpx
 from fastapi import HTTPException, Depends, Header
 from sqlalchemy.orm import Session
 from app.database import get_db, User
+from app.config import settings
 
 # JWT Settings
-JWT_SECRET = os.getenv("JWT_SECRET")
+JWT_SECRET = settings.JWT_SECRET
 if not JWT_SECRET:
-    raise ValueError("JWT_SECRET environment variable must be set")
+    raise ValueError("JWT_SECRET must be set in .env file or as environment variable")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 24 * 7  # 1 week
 
 # Google OAuth Settings
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
-GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
+GOOGLE_CLIENT_ID = settings.GOOGLE_CLIENT_ID or ""
+GOOGLE_CLIENT_SECRET = settings.GOOGLE_CLIENT_SECRET or ""
 
 
 def create_access_token(user_id: int, email: str) -> str:

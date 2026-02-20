@@ -48,7 +48,7 @@ function CompanySetup({ existingProfile, onSave }) {
         const data = await response.json()
         console.log('Scrape response:', data)
         
-        if (data.scraped_successfully && data.inferred_profile) {
+        if (data.scraped_successfully && data.inferred_profile && Object.keys(data.inferred_profile).length > 0) {
           console.log('Inferred profile:', data.inferred_profile)
           // Auto-fill form with inferred data
           setFormData(prev => ({
@@ -74,7 +74,7 @@ function CompanySetup({ existingProfile, onSave }) {
       } else {
         const errorText = await response.text()
         console.error('Server error:', errorText)
-        setError(`Server error: ${response.status}. Make sure backend is running.`)
+        setError(`Server error: ${response.status}. Make sure the backend is running.`)
       }
     } catch (err) {
       console.error('Error analyzing website:', err)
@@ -107,11 +107,11 @@ function CompanySetup({ existingProfile, onSave }) {
     return (
       <div className="setup-container">
         <div className="setup-card setup-start">
-          <div className="setup-icon">🌐</div>
-          <h2>Let's Get Started</h2>
+          <div className="setup-icon">☑️</div>
+          <h2>Let's set up your profile</h2>
           <p className="setup-description">
-            Enter your website URL and we'll automatically learn about your business 
-            to create personalized social media content.
+            Enter your website URL and Gridly will analyze your business 
+            to create a personalized content strategy.
           </p>
 
           <div className="website-input-container">
@@ -141,12 +141,12 @@ function CompanySetup({ existingProfile, onSave }) {
 
           {error && (
             <div className="error-message">
-              ⚠️ {error}
+              {error}
             </div>
           )}
 
           <button className="skip-link" onClick={handleSkipToManual}>
-            I don't have a website - enter details manually
+            I don't have a website — enter details manually
           </button>
         </div>
       </div>
@@ -160,9 +160,9 @@ function CompanySetup({ existingProfile, onSave }) {
         <div className="setup-card">
           <div className="review-header">
             <span className="success-icon">✓</span>
-            <h2>We Found Your Business!</h2>
+            <h2>✨ Profile Created</h2>
             <p className="setup-description">
-              Here's what we learned from your website. Review and edit anything that needs adjustment.
+              Here's what Gridly learned from your website. Review and adjust anything that needs refinement.
             </p>
           </div>
 
@@ -229,7 +229,7 @@ function CompanySetup({ existingProfile, onSave }) {
               </div>
 
               <div className="form-group">
-                <label htmlFor="content_goals">Social Media Goals</label>
+                <label htmlFor="content_goals">Content Goals</label>
                 <textarea
                   id="content_goals"
                   name="content_goals"
@@ -266,8 +266,8 @@ function CompanySetup({ existingProfile, onSave }) {
                     onChange={handleChange}
                   >
                     <option value="professional">Professional</option>
-                    <option value="casual">Casual & Friendly</option>
-                    <option value="playful">Playful & Fun</option>
+                    <option value="casual">Casual and Friendly</option>
+                    <option value="playful">Playful and Fun</option>
                     <option value="authoritative">Authoritative</option>
                     <option value="inspirational">Inspirational</option>
                     <option value="educational">Educational</option>
@@ -290,7 +290,7 @@ function CompanySetup({ existingProfile, onSave }) {
 
             <div className="form-actions">
               <button type="submit" className="primary-button">
-                ✓ Looks Good - Save Profile
+                ✓ Save Profile
               </button>
             </div>
           </form>
@@ -303,11 +303,11 @@ function CompanySetup({ existingProfile, onSave }) {
   return (
     <div className="setup-container">
       <div className="setup-card">
-        <h2>🏢 Company Profile</h2>
+        <h2>⚙️ Company Profile</h2>
         <p className="setup-description">
           {existingProfile 
             ? "Update your company details below."
-            : "Tell us about your business to create personalized content."}
+            : "Tell us about your business so Gridly can create personalized content."}
         </p>
 
         <form onSubmit={handleSubmit} className="setup-form">
@@ -348,7 +348,7 @@ function CompanySetup({ existingProfile, onSave }) {
                 value={formData.industry}
                 onChange={handleChange}
                 required
-                placeholder="e.g., Food & Beverage, Local Bakery"
+                placeholder="e.g., Food and Beverage, Local Bakery"
               />
             </div>
 
@@ -361,7 +361,7 @@ function CompanySetup({ existingProfile, onSave }) {
                 onChange={handleChange}
                 required
                 rows="3"
-                placeholder="What do you do? What makes you unique? What products/services do you offer?"
+                placeholder="What do you do? What makes you unique? What products or services do you offer?"
               />
             </div>
           </div>
@@ -400,7 +400,7 @@ function CompanySetup({ existingProfile, onSave }) {
             <h3>Content Preferences</h3>
 
             <div className="form-group">
-              <label htmlFor="content_goals">What do you want to achieve with social media? *</label>
+              <label htmlFor="content_goals">What do you want to achieve with your content? *</label>
               <textarea
                 id="content_goals"
                 name="content_goals"
@@ -438,8 +438,8 @@ function CompanySetup({ existingProfile, onSave }) {
                   onChange={handleChange}
                 >
                   <option value="professional">Professional</option>
-                  <option value="casual">Casual & Friendly</option>
-                  <option value="playful">Playful & Fun</option>
+                  <option value="casual">Casual and Friendly</option>
+                  <option value="playful">Playful and Fun</option>
                   <option value="authoritative">Authoritative</option>
                   <option value="inspirational">Inspirational</option>
                   <option value="educational">Educational</option>
@@ -462,7 +462,7 @@ function CompanySetup({ existingProfile, onSave }) {
 
           <div className="form-actions">
             <button type="submit" className="primary-button">
-              💾 Save Company Profile
+              ✓ Save Company Profile
             </button>
           </div>
         </form>

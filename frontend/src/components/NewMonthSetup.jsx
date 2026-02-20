@@ -25,8 +25,8 @@ function NewMonthSetup({ companyProfile, onGenerate, onCancel, loading }) {
   return (
     <div className="new-month-overlay">
       <div className="new-month-modal">
-        <h2>📅 Plan {monthName}</h2>
-        <p className="modal-subtitle">Let's create fresh content for the upcoming month!</p>
+        <h2>📋 Plan {monthName}</h2>
+        <p className="modal-subtitle">Configure your content plan for the upcoming month.</p>
 
         <div className="month-form">
           {/* Goals Section */}
@@ -55,7 +55,7 @@ function NewMonthSetup({ companyProfile, onGenerate, onCancel, loading }) {
               <textarea
                 value={newGoals}
                 onChange={(e) => setNewGoals(e.target.value)}
-                placeholder="What do you want to achieve this month? (e.g., Launch new product, increase engagement, build community...)"
+                placeholder="What do you want to achieve this month? (e.g., Launch new product, increase engagement, build community)"
                 rows={3}
               />
             )}
@@ -74,19 +74,19 @@ function NewMonthSetup({ companyProfile, onGenerate, onCancel, loading }) {
             <textarea
               value={promotions}
               onChange={(e) => setPromotions(e.target.value)}
-              placeholder="e.g., 20% off sale Jan 15-20, Free shipping weekend, New customer discount..."
+              placeholder="e.g., 20% off sale Jan 15-20, Free shipping weekend, New customer discount"
               rows={2}
             />
           </div>
 
           {/* Events Section */}
           <div className="form-section">
-            <h3>🎉 Events & Milestones</h3>
+            <h3>🎉 Events and Milestones</h3>
             <p className="section-hint">Any events, launches, anniversaries, or holidays to highlight?</p>
             <textarea
               value={events}
               onChange={(e) => setEvents(e.target.value)}
-              placeholder="e.g., Product launch Jan 10, Company anniversary, Valentine's Day promo..."
+              placeholder="e.g., Product launch Jan 10, Company anniversary, Valentine's Day promo"
               rows={2}
             />
           </div>
@@ -98,7 +98,7 @@ function NewMonthSetup({ companyProfile, onGenerate, onCancel, loading }) {
             <textarea
               value={focuses}
               onChange={(e) => setFocuses(e.target.value)}
-              placeholder="e.g., Customer testimonials, Behind-the-scenes content, Educational series..."
+              placeholder="e.g., Customer testimonials, Behind-the-scenes content, Educational series"
               rows={2}
             />
           </div>
@@ -134,7 +134,7 @@ function NewMonthSetup({ companyProfile, onGenerate, onCancel, loading }) {
             onClick={handleGenerate}
             disabled={loading}
           >
-            {loading ? '⏳ Generating (~1-2 min)...' : '✨ Generate Calendar'}
+            {loading ? '✨ Generating (~1-2 min)...' : '📅 Build My Plan'}
           </button>
         </div>
       </div>

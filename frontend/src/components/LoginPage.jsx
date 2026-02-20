@@ -5,23 +5,22 @@ function LoginPage({ onLoginSuccess }) {
     <div className="login-page">
       <div className="login-card">
         <div className="login-header">
-          <div className="login-icon">📅</div>
-          <h1>Social Media Planner</h1>
-          <p>AI-powered content planning for your business</p>
+          <img src="/gridly-logo-dark.svg" alt="Gridly" className="login-logo" />
+          <p>The AI content planning system for small businesses.</p>
         </div>
 
         <div className="login-features">
           <div className="feature">
-            <span className="feature-icon">🎯</span>
-            <span>Generate a month of content in minutes</span>
+            <span className="feature-icon">📋</span>
+            <span>A full month of content in minutes</span>
           </div>
           <div className="feature">
             <span className="feature-icon">📊</span>
-            <span>Get industry insights & personalized tips</span>
+            <span>Industry insights that sharpen your strategy</span>
           </div>
           <div className="feature">
-            <span className="feature-icon">💾</span>
-            <span>Save calendars & track your progress</span>
+            <span className="feature-icon">🎯</span>
+            <span>Personalized recommendations for your brand</span>
           </div>
         </div>
 

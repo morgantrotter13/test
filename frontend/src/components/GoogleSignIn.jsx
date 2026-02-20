@@ -104,7 +104,7 @@ function GoogleSignIn({ onSuccess }) {
     <div className="google-signin-container">
       {error && (
         <div className="signin-error">
-          ⚠️ {error}
+          {error}
         </div>
       )}
 

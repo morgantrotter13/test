@@ -36,9 +36,7 @@ class Settings(BaseSettings):
     # Stripe Settings
     STRIPE_SECRET_KEY: Optional[str] = None
     STRIPE_WEBHOOK_SECRET: Optional[str] = None
-    STRIPE_PRICE_STARTER: Optional[str] = None
-    STRIPE_PRICE_MONTHLY: Optional[str] = None
-    STRIPE_PRICE_YEARLY: Optional[str] = None
+    STRIPE_PRICE_MONTHLY: Optional[str] = None  # Growth plan - $99/mo
     
     class Config:
         env_file = ".env"

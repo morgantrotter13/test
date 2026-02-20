@@ -9,9 +9,10 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Any
 from openai import OpenAI
 from jinja2 import Template
+from app.config import settings
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
+MODEL = settings.OPENAI_MODEL
 
 
 # Load prompt templates

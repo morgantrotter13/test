@@ -25,8 +25,8 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
   if (!calendar) {
     return (
       <div className="calendar-empty">
-        <h2>📅 Content Calendar</h2>
-        <p>No calendar generated yet. Go to the Dashboard to create your content calendar.</p>
+        <h2>📋 Content Calendar</h2>
+        <p>No calendar generated yet. Go to the Dashboard to build your content plan.</p>
       </div>
     )
   }
@@ -105,9 +105,9 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
     <div className="calendar-container">
       <div className="calendar-header">
         <div>
-          <h2>📅 {calendar.month}</h2>
+          <h2>📋 {calendar.month}</h2>
           <p className="calendar-subtitle">
-            {calendar.total_posts} posts • {calendar.posts_per_week}x per week • {calendar.platform}
+            {calendar.total_posts} posts · {calendar.posts_per_week}x per week · {calendar.platform}
           </p>
         </div>
         <div className="progress-tracker">
@@ -128,7 +128,7 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
         {!isSaved ? (
           <>
             <div className="action-group">
-              <span className="action-label">Happy with this calendar?</span>
+              <span className="action-label">Ready to commit?</span>
               <button 
                 className="save-button"
                 onClick={onSave}
@@ -139,11 +139,11 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
                 className="next-month-button"
                 onClick={onSaveAndNext}
               >
-                Save & Plan {getNextMonth()} →
+                Save and Plan {getNextMonth()} →
               </button>
             </div>
             <div className="action-group">
-              <span className="action-label">Want changes?</span>
+              <span className="action-label">Need adjustments?</span>
               <button 
                 className="regenerate-button"
                 onClick={() => setShowFeedback(true)}
@@ -155,12 +155,12 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
           </>
         ) : (
           <div className="saved-banner">
-            <span>✓ Calendar saved!</span>
+            <span>✓ Calendar saved</span>
             <button 
               className="next-month-button"
               onClick={onSaveAndNext}
             >
-              Plan {getNextMonth()} →
+              📅 Plan {getNextMonth()}
             </button>
           </div>
         )}
@@ -173,7 +173,7 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
           <textarea
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            placeholder="e.g., More promotional content, less formal tone, focus more on customer stories..."
+            placeholder="e.g., More promotional content, less formal tone, focus more on customer stories"
             rows={3}
           />
           <div className="feedback-actions">
@@ -188,7 +188,7 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
               onClick={handleRegenerateWithFeedback}
               disabled={loading}
             >
-              {loading ? '⏳ Regenerating...' : '🔄 Regenerate All Posts'}
+              {loading ? '✨ Regenerating...' : '🔄 Regenerate All Posts'}
             </button>
           </div>
         </div>
@@ -268,7 +268,7 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
             {selectedPost === index && (
               <div className="card-details">
                 <div className="post-content-section">
-                  <h4>📝 Post Content</h4>
+                  <h4>✍️ Post Content</h4>
                   <div className="post-text">
                     {formatText(post.post_content)}
                   </div>
@@ -280,7 +280,7 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
                         copyToClipboard(post.post_content, index)
                       }}
                     >
-                      {copiedIndex === index ? '✓ Copied!' : '📋 Copy'}
+                      {copiedIndex === index ? '✓ Copied' : '📋 Copy'}
                     </button>
                     <button 
                       className="regen-post-button"
@@ -290,7 +290,7 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
                       }}
                       disabled={regeneratingPost === index}
                     >
-                      {regeneratingPost === index ? '⏳ Regenerating...' : '🔄 Regenerate This Post'}
+                      {regeneratingPost === index ? '✨ Regenerating...' : '🔄 Regenerate This Post'}
                     </button>
                   </div>
                 </div>
@@ -299,7 +299,7 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
                 <div className="post-feedback-section">
                   <input
                     type="text"
-                    placeholder="Optional: What would you like different? (e.g., more casual, add humor)"
+                    placeholder="Optional: What would you like different? (e.g., more casual, add a question)"
                     value={postFeedback}
                     onChange={(e) => setPostFeedback(e.target.value)}
                     onClick={(e) => e.stopPropagation()}
@@ -307,12 +307,12 @@ function ContentCalendar({ calendar, onRegenerate, onSaveAndNext, onSave, onUpda
                 </div>
 
                 <div className="image-section">
-                  <h4>📸 Image Idea</h4>
+                  <h4>🖼️ Image Direction</h4>
                   <p>{post.image_idea}</p>
                 </div>
 
                 <div className="timing-section">
-                  <h4>⏰ Best Time</h4>
+                  <h4>⏰ Recommended Time</h4>
                   <p>{post.best_time}</p>
                 </div>
               </div>

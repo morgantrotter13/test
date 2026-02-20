@@ -34,7 +34,7 @@ function ContentCreationForm({ onSubmit, loading }) {
     <div className="form-card">
       <h2>Content Creation Workflow</h2>
       <p className="form-description">
-        Fill in your brand information to generate a complete social media post through our AI workflow.
+        Fill in your brand information to generate a complete post through our AI workflow.
       </p>
       
       <form onSubmit={handleSubmit} className="content-form">

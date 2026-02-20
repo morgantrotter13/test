@@ -1,5 +1,5 @@
 """
-FastAPI main application entry point for AI SaaS backend.
+FastAPI main application entry point for Gridly backend.
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,8 +7,8 @@ from app.routes import prompts, workflows, debug, content, auth, payments
 from app.config import settings
 
 app = FastAPI(
-    title="Social Media Planner API",
-    description="AI-powered social media content planning for small businesses",
+    title="Gridly API",
+    description="AI-powered content planning system for small businesses",
     version="2.0.0"
 )
 
@@ -34,7 +34,7 @@ app.include_router(debug.router, prefix="/api/v1/debug", tags=["debug"])
 async def root():
     """Root endpoint."""
     return {
-        "message": "Social Media Planner API",
+        "message": "Gridly API",
         "version": "2.0.0",
         "docs": "/docs"
     }

@@ -152,9 +152,8 @@ export function AuthProvider({ children }) {
 
   // Check subscription status
   const isSubscribed = user?.is_subscribed || false
-  const subscriptionPlan = user?.subscription_plan || null  // 'starter' or 'pro'
-  const isProPlan = subscriptionPlan === 'pro'
-  const isStarterPlan = subscriptionPlan === 'starter'
+  const subscriptionPlan = user?.subscription_plan || null  // 'growth' (or legacy 'pro')
+  const isGrowthPlan = subscriptionPlan === 'growth' || subscriptionPlan === 'pro'  // backward compat
 
   // Refresh subscription status
   const refreshSubscription = async () => {
@@ -184,8 +183,7 @@ export function AuthProvider({ children }) {
       isAuthenticated: !!user,
       isSubscribed,
       subscriptionPlan,
-      isProPlan,
-      isStarterPlan,
+      isGrowthPlan,
       loginWithGoogle,
       logout,
       authFetch,

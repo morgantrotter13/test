@@ -1,8 +1,9 @@
 import os
 from openai import OpenAI
+from app.config import settings
 
-# Load OpenAI key from environment variable
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Load OpenAI key from settings
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 def run_brain(input_data):
     """
@@ -33,10 +34,10 @@ Generate ONE ready-to-post {input_data['post_type']} social media post below:
     try:
         # Call OpenAI with timeout
         response = client.chat.completions.create(
-            model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+            model=settings.OPENAI_MODEL,
             messages=[{"role": "user", "content": prompt}],
-            temperature=float(os.getenv("OPENAI_TEMPERATURE", "0.7")),
-            max_tokens=int(os.getenv("OPENAI_MAX_TOKENS", "800")),
+            temperature=settings.OPENAI_TEMPERATURE,
+            max_tokens=settings.OPENAI_MAX_TOKENS,
             timeout=30.0
         )
         return response.choices[0].message.content

@@ -39,7 +39,7 @@ class User(Base):
     stripe_customer_id = Column(String(255), unique=True, nullable=True)
     is_subscribed = Column(Boolean, default=False)
     subscription_status = Column(String(50), default="none")  # none, active, cancelled, past_due
-    subscription_plan = Column(String(50), nullable=True)  # starter, pro
+    subscription_plan = Column(String(50), nullable=True)  # growth
     subscription_end = Column(DateTime, nullable=True)
     
     # Relationships

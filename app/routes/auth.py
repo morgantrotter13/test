@@ -82,7 +82,10 @@ async def google_auth(request: GoogleAuthRequest, db: Session = Depends(get_db))
                 "id": user.id,
                 "email": user.email,
                 "name": user.name,
-                "picture": user.picture
+                "picture": user.picture,
+                "is_subscribed": user.is_subscribed,
+                "subscription_plan": user.subscription_plan,
+                "subscription_status": user.subscription_status
             }
         }
     except HTTPException:
@@ -100,7 +103,10 @@ def get_current_user_info(user: User = Depends(require_auth)):
         "email": user.email,
         "name": user.name,
         "picture": user.picture,
-        "created_at": user.created_at.isoformat() if user.created_at else None
+        "created_at": user.created_at.isoformat() if user.created_at else None,
+        "is_subscribed": user.is_subscribed,
+        "subscription_plan": user.subscription_plan,
+        "subscription_status": user.subscription_status
     }
 
 

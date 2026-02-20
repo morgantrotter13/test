@@ -6,26 +6,25 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from app.database import get_db, User
 from app.auth import require_auth
+from app.config import settings
 from datetime import datetime
-import os
 import stripe
 
 router = APIRouter()
 
-# Stripe configuration
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "")
-STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+# Stripe configuration (read from settings/.env)
+stripe.api_key = settings.STRIPE_SECRET_KEY or ""
+STRIPE_WEBHOOK_SECRET = settings.STRIPE_WEBHOOK_SECRET or ""
 
 # Your Stripe Price IDs (create these in Stripe Dashboard)
 PRICE_IDS = {
-    "starter": os.getenv("STRIPE_PRICE_STARTER", ""),  # $29.99/month
-    "monthly": os.getenv("STRIPE_PRICE_MONTHLY", ""),  # $99.99/month (Pro)
-    "yearly": os.getenv("STRIPE_PRICE_YEARLY", ""),    # $899.88/year (Pro)
+    "growth": settings.STRIPE_PRICE_MONTHLY or "",   # $99/month (Growth)
+    "monthly": settings.STRIPE_PRICE_MONTHLY or "",  # alias for growth
 }
 
 
 class CheckoutRequest(BaseModel):
-    price_id: str  # "monthly" or "yearly"
+    price_id: str  # "growth" or "monthly"
     success_url: str
     cancel_url: str
 
@@ -60,8 +59,8 @@ async def create_checkout_session(
             user.stripe_customer_id = customer.id
             db.commit()
         
-        # Determine plan type from price_id
-        plan_type = "starter" if request.price_id == "starter" else "pro"
+        # All paid plans are "growth"
+        plan_type = "growth"
         
         # Create checkout session
         session = stripe.checkout.Session.create(
@@ -139,7 +138,7 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
     if event.type == "checkout.session.completed":
         session = event.data.object
         user_id = session.metadata.get("user_id")
-        plan_type = session.metadata.get("plan_type", "pro")  # Default to pro
+        plan_type = session.metadata.get("plan_type", "growth")  # Default to growth
         if user_id:
             user = db.query(User).filter(User.id == int(user_id)).first()
             if user:

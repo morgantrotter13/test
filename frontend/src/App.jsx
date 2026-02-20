@@ -13,7 +13,7 @@ import PricingPage from './components/PricingPage'
 import './App.css'
 
 function AppContent() {
-  const { isAuthenticated, user, loading: authLoading, logout, api, isSubscribed, isProPlan, isStarterPlan } = useAuth()
+  const { isAuthenticated, user, loading: authLoading, logout, api, isSubscribed, isGrowthPlan, refreshSubscription } = useAuth()
   
   const [activeTab, setActiveTab] = useState('dashboard')
   const [companyProfile, setCompanyProfile] = useState(null)
@@ -33,6 +33,16 @@ function AppContent() {
   useEffect(() => {
     if (isAuthenticated && !dataLoaded) {
       loadUserData()
+    }
+  }, [isAuthenticated])
+
+  // Refresh subscription status after Stripe checkout redirect
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('subscribed') === 'true' && isAuthenticated) {
+      refreshSubscription()
+      // Clean up the URL
+      window.history.replaceState({}, '', window.location.pathname)
     }
   }, [isAuthenticated])
 
@@ -290,7 +300,7 @@ function AppContent() {
       <div className="app loading-screen">
         <div className="loading-content">
           <div className="spinner large"></div>
-          <p>Loading...</p>
+          <p>Loading Gridly ✨</p>
         </div>
       </div>
     )
@@ -310,37 +320,37 @@ function AppContent() {
           className={activeTab === 'dashboard' ? 'active' : ''} 
           onClick={() => setActiveTab('dashboard')}
         >
-          📊 Dashboard
+          Dashboard
         </button>
         <button 
           className={activeTab === 'calendar' ? 'active' : ''} 
           onClick={() => setActiveTab('calendar')}
         >
-          📅 {currentCalendar ? currentCalendar.month : 'Calendar'}
+          {currentCalendar ? currentCalendar.month : 'Calendar'}
         </button>
         {pastCalendars.length > 0 && (
           <button 
             className={activeTab === 'history' ? 'active' : ''} 
             onClick={() => setActiveTab('history')}
           >
-            📚 Past Months ({pastCalendars.length})
+            Past Plans ({pastCalendars.length})
           </button>
         )}
         <button 
           className={activeTab === 'setup' ? 'active' : ''} 
           onClick={() => setActiveTab('setup')}
         >
-          ⚙️ Settings
+          Settings
         </button>
         {!isSubscribed ? (
           <button 
             className={`upgrade-btn ${activeTab === 'pricing' ? 'active' : ''}`}
             onClick={() => setActiveTab('pricing')}
           >
-            ⚡ Upgrade to Pro
+            ⚡ Upgrade to Growth
           </button>
         ) : (
-          <span className="pro-status">⚡ Pro Member</span>
+          <span className="pro-status">⚡ Growth Member</span>
         )}
       </nav>
 
@@ -366,8 +376,7 @@ function AppContent() {
             onSaveInsights={handleSaveInsights}
             onSaveTips={handleSaveTips}
             isSubscribed={isSubscribed}
-            isProPlan={isProPlan}
-            isStarterPlan={isStarterPlan}
+            isGrowthPlan={isGrowthPlan}
             onUpgradeClick={() => setActiveTab('pricing')}
           />
         )}

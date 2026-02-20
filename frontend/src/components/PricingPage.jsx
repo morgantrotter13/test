@@ -9,8 +9,8 @@ function PricingPage({ onSubscribed }) {
   const [loading, setLoading] = useState(null)
   const [error, setError] = useState('')
 
-  const handleSubscribe = async (plan) => {
-    setLoading(plan)
+  const handleSubscribe = async () => {
+    setLoading('growth')
     setError('')
 
     try {
@@ -21,7 +21,7 @@ function PricingPage({ onSubscribed }) {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          price_id: plan,
+          price_id: 'growth',
           success_url: `${window.location.origin}/?subscribed=true`,
           cancel_url: `${window.location.origin}/pricing`
         })
@@ -72,118 +72,87 @@ function PricingPage({ onSubscribed }) {
       {/* Hero Section */}
       <div className="billing-hero">
         <div className="billing-hero-content">
-          <span className="billing-badge">✨ Launch Pricing</span>
-          <h1>Supercharge Your Social Media</h1>
-          <p>AI-powered content that converts. Cancel anytime.</p>
+          <span className="billing-badge">✦ Simple Pricing</span>
+          <h1>Try it free. Grow when you're ready.</h1>
+          <p>Generate 1 content plan on us. Upgrade to Growth for unlimited access.</p>
         </div>
         <div className="billing-hero-glow"></div>
       </div>
 
       {error && (
         <div className="billing-error">
-          <span>⚠️</span> {error}
+          {error}
         </div>
       )}
 
-
       {/* Pricing Cards */}
       <div className="billing-cards">
-        {/* Starter */}
+        {/* Free */}
         <div className="billing-card">
           <div className="billing-card-header">
-            <span className="plan-icon">🌱</span>
-            <h3>Starter</h3>
-            <p className="plan-desc">Try it out</p>
+            <h3>Free</h3>
+            <p className="plan-desc">See Gridly in action</p>
           </div>
           <div className="billing-price">
             <span className="currency">$</span>
-            <span className="amount">29</span>
-            <span className="cents">.99</span>
-            <span className="period">/mo</span>
+            <span className="amount">0</span>
+            <span className="period"></span>
           </div>
           <ul className="billing-features">
-            <li><span className="check">✓</span> 4 AI-generated posts per month</li>
-            <li><span className="check">✓</span> Image ideas for each post</li>
-            <li><span className="check">✓</span> Caption optimization</li>
-            <li className="disabled"><span className="x">✗</span> Full monthly calendar</li>
-            <li className="disabled"><span className="x">✗</span> Industry insights</li>
-            <li className="disabled"><span className="x">✗</span> Personalized tips</li>
-            <li className="disabled"><span className="x">✗</span> Unlimited regenerations</li>
+            <li><span className="check">✓</span> 1 AI-generated post</li>
+            <li><span className="check">✓</span> Company profile setup</li>
+            <li><span className="check">✓</span> Website analysis</li>
+            <li className="disabled"><span className="x">—</span> Full monthly calendar</li>
+            <li className="disabled"><span className="x">—</span> Industry insights</li>
+            <li className="disabled"><span className="x">—</span> Personalized recommendations</li>
+            <li className="disabled"><span className="x">—</span> Unlimited regenerations</li>
+            <li className="disabled"><span className="x">—</span> Priority support</li>
           </ul>
-          <button 
-            className="billing-btn secondary"
-            onClick={() => handleSubscribe('starter')}
-            disabled={loading === 'starter'}
-          >
-            {loading === 'starter' ? 'Processing...' : 'Get Started'}
+          <button className="billing-btn secondary" disabled>
+            ✓ Current Plan
           </button>
         </div>
 
-        {/* Pro - Featured */}
+        {/* Growth - Featured */}
         <div className="billing-card featured">
           <div className="featured-badge">
-            <span>🔥 BEST VALUE</span>
+            <span>⚡ RECOMMENDED</span>
           </div>
           <div className="billing-card-header">
-            <span className="plan-icon">⚡</span>
-            <h3>Pro</h3>
-            <p className="plan-desc">For growing businesses</p>
+            <h3>Growth</h3>
+            <p className="plan-desc">The full content system</p>
           </div>
           <div className="billing-price">
             <span className="currency">$</span>
             <span className="amount">99</span>
-            <span className="cents">.99</span>
             <span className="period">/mo</span>
           </div>
           <ul className="billing-features">
             <li><span className="check">✓</span> <strong>Unlimited</strong> posts per month</li>
             <li><span className="check">✓</span> <strong>Unlimited</strong> content calendars</li>
             <li><span className="check">✓</span> Full monthly content planning</li>
-            <li><span className="check">✓</span> Industry insights & research</li>
-            <li><span className="check">✓</span> Personalized strategy tips</li>
-            <li><span className="check">✓</span> Website analysis & brand voice</li>
-            <li><span className="check">✓</span> Image ideas for every post</li>
+            <li><span className="check">✓</span> Industry insights and research</li>
+            <li><span className="check">✓</span> Personalized strategy recommendations</li>
+            <li><span className="check">✓</span> Website analysis and brand voice</li>
+            <li><span className="check">✓</span> Image direction for every post</li>
             <li><span className="check">✓</span> Unlimited regenerations</li>
             <li><span className="check">✓</span> Priority support</li>
           </ul>
           <button 
             className="billing-btn primary"
-            onClick={() => handleSubscribe('monthly')}
-            disabled={loading === 'monthly'}
+            onClick={handleSubscribe}
+            disabled={loading === 'growth'}
           >
-            {loading === 'monthly' ? (
+            {loading === 'growth' ? (
               <span className="btn-loading">
                 <span className="spinner"></span>
                 Processing...
               </span>
             ) : (
-              <>Get Pro</>
+              <>⚡ Get Growth</>
             )}
           </button>
           <p className="billing-guarantee">✓ 14-day money-back guarantee</p>
-        </div>
-
-        {/* Enterprise */}
-        <div className="billing-card">
-          <div className="billing-card-header">
-            <span className="plan-icon">🏢</span>
-            <h3>Enterprise</h3>
-            <p className="plan-desc">For teams & agencies</p>
-          </div>
-          <div className="billing-price custom">
-            <span className="amount">Custom</span>
-          </div>
-          <ul className="billing-features">
-            <li><span className="check">✓</span> Everything in Pro</li>
-            <li><span className="check">✓</span> Multi-brand management</li>
-            <li><span className="check">✓</span> Team collaboration</li>
-            <li><span className="check">✓</span> API access</li>
-            <li><span className="check">✓</span> Dedicated account manager</li>
-            <li><span className="check">✓</span> Custom integrations</li>
-          </ul>
-          <button className="billing-btn outline">
-            Contact Sales
-          </button>
         </div>
       </div>
 
@@ -198,34 +167,34 @@ function PricingPage({ onSubscribed }) {
           <span>Powered by Stripe</span>
         </div>
         <div className="trust-item">
-          <span className="trust-icon">🚫</span>
+          <span className="trust-icon">✕</span>
           <span>Cancel Anytime</span>
         </div>
         <div className="trust-item">
-          <span className="trust-icon">💬</span>
-          <span>24/7 Support</span>
+          <span className="trust-icon">⚡</span>
+          <span>Priority Support</span>
         </div>
       </div>
 
       {/* FAQ Section */}
       <div className="billing-faq">
-        <h2>Frequently Asked Questions</h2>
+        <h2>Common Questions</h2>
         <div className="faq-grid">
           <div className="faq-item">
             <h4>Can I cancel my subscription?</h4>
-            <p>Yes! Cancel anytime with one click. No questions asked, no hidden fees.</p>
+            <p>Yes. Cancel anytime with one click. No questions asked, no hidden fees.</p>
           </div>
           <div className="faq-item">
-            <h4>What's the difference between Starter and Pro?</h4>
-            <p>Starter gives you 4 posts/month to test it out. Pro unlocks unlimited posts, industry insights, and personalized tips.</p>
+            <h4>What do I get for free?</h4>
+            <p>You can set up your company profile, analyze your website, and generate 1 AI-powered post to see the quality of Gridly's output.</p>
           </div>
           <div className="faq-item">
-            <h4>Can I upgrade later?</h4>
-            <p>Absolutely! Start with Starter to try the quality, then upgrade to Pro when you're ready for more.</p>
+            <h4>What does Growth unlock?</h4>
+            <p>Growth gives you unlimited content calendars, industry insights, personalized recommendations, and unlimited post regenerations — the full content system.</p>
           </div>
           <div className="faq-item">
             <h4>What payment methods do you accept?</h4>
-            <p>We accept all major credit cards through Stripe's secure payment system.</p>
+            <p>All major credit cards through Stripe's secure payment infrastructure.</p>
           </div>
         </div>
       </div>

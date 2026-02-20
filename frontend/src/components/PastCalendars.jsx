@@ -2,16 +2,16 @@ function PastCalendars({ calendars, onSelectCalendar, onDeleteCalendar }) {
   if (!calendars || calendars.length === 0) {
     return (
       <div className="past-calendars-empty">
-        <h2>📚 Past Calendars</h2>
-        <p>No past calendars saved yet. Generate your first calendar from the Dashboard!</p>
+        <h2>📚 Past Plans</h2>
+        <p>No past calendars saved yet. Build your first plan from the Dashboard.</p>
       </div>
     )
   }
 
   return (
     <div className="past-calendars">
-      <h2>📚 Past Calendars</h2>
-      <p className="subtitle">View your previous months' content. AI uses this history to generate fresh ideas!</p>
+      <h2>📚 Past Plans</h2>
+      <p className="subtitle">Review previous months. Gridly uses this history to generate fresh, non-repetitive content.</p>
       
       <div className="calendars-list">
         {calendars.map((cal, index) => (
@@ -20,7 +20,7 @@ function PastCalendars({ calendars, onSelectCalendar, onDeleteCalendar }) {
               <div>
                 <h3>{cal.month}</h3>
                 <span className="history-meta">
-                  {cal.total_posts} posts • {cal.posts_per_week}x per week • {cal.platform}
+                  {cal.total_posts} posts · {cal.posts_per_week}x per week · {cal.platform}
                 </span>
               </div>
               <div className="history-actions">
@@ -34,7 +34,7 @@ function PastCalendars({ calendars, onSelectCalendar, onDeleteCalendar }) {
                   className="delete-button"
                   onClick={() => onDeleteCalendar(index)}
                 >
-                  ✕
+                  Remove
                 </button>
               </div>
             </div>

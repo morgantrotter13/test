@@ -42,11 +42,11 @@ function Auth({ onLogin }) {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>{isLogin ? '👋 Welcome Back' : '🚀 Get Started'}</h2>
+        <h2>{isLogin ? 'Welcome Back' : 'Get Started'}</h2>
         <p className="auth-subtitle">
           {isLogin 
             ? 'Log in to access your content calendar' 
-            : 'Create an account to start planning your social media'}
+            : 'Create an account to start planning your content'}
         </p>
 
         {error && (
@@ -82,7 +82,7 @@ function Auth({ onLogin }) {
           </div>
 
           <button type="submit" className="primary-button" disabled={loading}>
-            {loading ? '⏳ Please wait...' : (isLogin ? 'Log In' : 'Create Account')}
+            {loading ? 'Please wait...' : (isLogin ? 'Log In' : 'Create Account')}
           </button>
         </form>
 

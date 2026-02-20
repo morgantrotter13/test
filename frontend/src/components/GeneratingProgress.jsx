@@ -7,10 +7,10 @@ function GeneratingProgress({ postsPerWeek }) {
   const steps = [
     { icon: '🔍', text: 'Analyzing your brand', duration: 8000 },
     { icon: '📋', text: 'Developing content strategy', duration: 8000 },
-    { icon: '💡', text: 'Generating post topics', duration: 5000 },
-    { icon: '📝', text: `Writing ${postsPerWeek * 4} posts`, duration: 60000 },
-    { icon: '🎨', text: 'Adding image ideas', duration: 5000 },
-    { icon: '✨', text: 'Finalizing calendar', duration: 3000 }
+    { icon: '🎯', text: 'Generating post topics', duration: 5000 },
+    { icon: '✍️', text: `Writing ${postsPerWeek * 4} posts`, duration: 60000 },
+    { icon: '🖼️', text: 'Adding image direction', duration: 5000 },
+    { icon: '✅', text: 'Finalizing calendar', duration: 3000 }
   ]
 
   // Animate dots
@@ -39,11 +39,11 @@ function GeneratingProgress({ postsPerWeek }) {
       <div className="progress-card">
         <div className="progress-header">
           <div className="spinner"></div>
-          <h2>Creating Your Content Calendar</h2>
+          <h2>✨ Building Your Content Plan</h2>
         </div>
         
         <p className="progress-subtitle">
-          Our AI is crafting personalized posts for your business. This takes 1-2 minutes.
+          Gridly is creating personalized posts for your business. This typically takes 1-2 minutes.
         </p>
 
         <div className="progress-steps">
@@ -64,7 +64,7 @@ function GeneratingProgress({ postsPerWeek }) {
         </div>
 
         <div className="progress-tip">
-          <strong>💡 Tip:</strong> While you wait, think about any upcoming promotions or events you'd like to feature next month!
+          <strong>💡 While you wait:</strong> Think about any upcoming promotions or events you'd like to feature next month.
         </div>
       </div>
     </div>
