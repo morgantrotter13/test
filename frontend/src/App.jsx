@@ -36,11 +36,40 @@ function AppContent() {
     }
   }, [isAuthenticated])
 
-  // Refresh subscription status after Stripe checkout redirect
+  // Verify subscription after Stripe checkout redirect
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get('subscribed') === 'true' && isAuthenticated) {
-      refreshSubscription()
+      const sessionId = params.get('session_id')
+      
+      const verifyAndRefresh = async () => {
+        // If we have a session ID, verify directly with Stripe (doesn't depend on webhook)
+        if (sessionId) {
+          try {
+            const token = localStorage.getItem('auth_token')
+            const res = await fetch(`${API_V1}/payments/verify-session`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({ session_id: sessionId })
+            })
+            if (res.ok) {
+              const data = await res.json()
+              console.log('Session verified:', data)
+            }
+          } catch (err) {
+            console.error('Session verification error:', err)
+          }
+        }
+        
+        // Always refresh subscription status from DB
+        await refreshSubscription()
+      }
+      
+      verifyAndRefresh()
+      
       // Clean up the URL
       window.history.replaceState({}, '', window.location.pathname)
     }
