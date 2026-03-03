@@ -104,7 +104,15 @@ def require_auth(
 
 def get_or_create_user(db: Session, google_user: dict) -> User:
     """Get existing user or create new one from Google user info."""
+    # First try to find by google_id
     user = db.query(User).filter(User.google_id == google_user["sub"]).first()
+    
+    # Fallback: find by email (handles users created before Google login)
+    if not user:
+        user = db.query(User).filter(User.email == google_user["email"]).first()
+        if user:
+            # Link their Google account to existing user
+            user.google_id = google_user["sub"]
     
     if user:
         # Update last login
