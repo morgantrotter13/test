@@ -220,6 +220,35 @@ async def activate_user_subscription(
     }
 
 
+@router.post("/list-users")
+async def list_users(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """Admin endpoint to list all users."""
+    body = await request.json()
+    admin_key = body.get("admin_key")
+    
+    if admin_key != settings.JWT_SECRET:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    
+    users = db.query(User).all()
+    return {
+        "users": [
+            {
+                "id": u.id,
+                "email": u.email,
+                "name": u.name,
+                "is_subscribed": u.is_subscribed,
+                "subscription_plan": u.subscription_plan,
+                "stripe_customer_id": u.stripe_customer_id
+            }
+            for u in users
+        ],
+        "count": len(users)
+    }
+
+
 @router.post("/webhook")
 async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
     """Handle Stripe webhooks for subscription events."""
