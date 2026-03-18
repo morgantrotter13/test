@@ -253,7 +253,7 @@ IMAGE IDEA:
 Suggest ONE simple image a small business owner can take with their phone in 5 minutes. One sentence only.
 
 BEST TIME TO POST:
-Just day and time, like "Tuesday 10am"
+Just the time of day, like "10am" or "6pm". Do NOT include the day of the week.
 
 IMPORTANT: 
 - Keep the post SHORT and punchy - optimized for {platform}
@@ -578,7 +578,7 @@ IMAGE IDEA:
 [One sentence - simple photo idea they can take with their phone in 5 minutes]
 
 BEST TIME:
-[Just day and time like "Tuesday 10am"]
+[Just the time of day like "10am" or "6pm". Do NOT include the day of the week.]
 
 IMPORTANT:
 - No markdown formatting.
