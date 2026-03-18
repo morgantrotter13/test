@@ -540,7 +540,8 @@ def regenerate_one_post(
     }.get(platform, "Keep it concise - 2-3 short sentences max.")
     
     # Build the prompt
-    prompt = f"""Generate a fresh social media post for {company_profile['brand_name']}.
+    prompt = f"""Generate a COMPLETELY NEW social media post for {company_profile['brand_name']}.
+The previous post was about "{post_theme}" — write something fresh and different.
 
 BUSINESS INFO:
 - Industry: {company_profile['industry']}
@@ -548,7 +549,7 @@ BUSINESS INFO:
 - Brand Values: {company_profile['brand_values']}
 - About: {company_profile['brand_info'][:300]}
 
-TOPIC: {post_theme}
+ORIGINAL TOPIC: {post_theme}
 PLATFORM: {platform}
 TONE: {company_profile.get('tone', 'professional')}
 INCLUDE CTA: {company_profile.get('include_cta', True)}
@@ -562,17 +563,24 @@ BUSINESS CONTEXT (make it relevant to what they actually do):
 
     if feedback:
         prompt += f"""
-USER FEEDBACK - Make these changes:
+USER FEEDBACK - The user wants these specific changes. Follow their feedback closely:
 {feedback}
+"""
+    else:
+        prompt += """
+No specific feedback — just create a completely different post with a fresh angle and new theme.
 """
 
     prompt += f"""
 POST LENGTH: {length_guide}
 
-Provide response in this format:
+Provide response in this EXACT format:
+
+THEME:
+[A short 3-6 word theme/topic for this post — different from the original]
 
 POST:
-[The complete post, ready to copy-paste. Short and punchy. Include 3-5 hashtags at the end.]
+[The complete post, ready to copy-paste. Short and punchy. Include 3-5 hashtags at the end. Must be COMPLETELY different from any previous version.]
 
 IMAGE IDEA:
 [One sentence - simple photo idea they can take with their phone in 5 minutes]
@@ -581,33 +589,44 @@ BEST TIME:
 [Just the time of day like "10am" or "6pm". Do NOT include the day of the week.]
 
 IMPORTANT:
+- Generate entirely NEW content — different theme, different angle, different wording.
 - No markdown formatting.
-- Keep post SHORT and optimized for {platform}. Make it different from the original.
+- Keep post SHORT and optimized for {platform}.
 - Use emojis sparingly — maximum 1-2 per post, only if they add meaning.
 - Do NOT invent events, promotions, sales, dates, statistics, or testimonials that were not provided. Only reference real details from the business info above.
 - Write authentically as if you are the business owner.
 """
 
-    result = call_llm(prompt, temperature=0.8, max_tokens=500)
+    result = call_llm(prompt, temperature=0.8, max_tokens=600)
     
     # Parse the response
+    new_theme = post_theme  # fallback to original
     post_content = result
     image_idea = ""
     best_time = ""
     
+    # Extract theme
+    if "THEME:" in result and "POST:" in result:
+        theme_section = result.split("POST:")[0]
+        new_theme = theme_section.replace("THEME:", "").strip()
+    
+    # Extract post content, image idea, and best time
     if "POST:" in result:
-        parts = result.split("IMAGE IDEA:")
-        post_content = parts[0].replace("POST:", "").strip()
-        if len(parts) > 1:
-            remaining = parts[1]
+        after_post = result.split("POST:", 1)[1]
+        
+        if "IMAGE IDEA:" in after_post:
+            post_content = after_post.split("IMAGE IDEA:")[0].strip()
+            remaining = after_post.split("IMAGE IDEA:", 1)[1]
+            
             if "BEST TIME:" in remaining:
-                image_parts = remaining.split("BEST TIME:")
-                image_idea = image_parts[0].strip()
-                best_time = image_parts[1].strip() if len(image_parts) > 1 else ""
+                image_idea = remaining.split("BEST TIME:")[0].strip()
+                best_time = remaining.split("BEST TIME:", 1)[1].strip()
             else:
                 image_idea = remaining.strip()
+        else:
+            post_content = after_post.strip()
     
-    print(f"✅ Post regenerated")
+    print(f"✅ Post regenerated with new theme: {new_theme}")
     
     # Parse the date to get day of week
     from datetime import datetime
@@ -620,7 +639,7 @@ IMPORTANT:
     return {
         "date": post_date,
         "day_of_week": day_of_week,
-        "theme": post_theme,
+        "theme": clean_markdown(new_theme) or post_theme,
         "post_content": clean_markdown(post_content),
         "image_idea": clean_markdown(image_idea) or "Take a simple photo related to this topic with your phone",
         "best_time": clean_markdown(best_time) or "Weekday morning 9-11am",
