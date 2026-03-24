@@ -4,7 +4,7 @@ Stripe payment routes for subscriptions.
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from app.database import get_db, User
+from app.database import get_db, User, Calendar
 from app.auth import require_auth
 from app.config import settings
 from datetime import datetime
@@ -315,6 +315,49 @@ async def list_users(
             for u in users
         ],
         "count": len(users)
+    }
+
+
+@router.post("/user-calendars")
+async def get_user_calendars_admin(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """Admin endpoint to check a user's calendars by email."""
+    body = await request.json()
+    admin_key = body.get("admin_key")
+    email = body.get("email")
+    
+    if admin_key != settings.JWT_SECRET:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    
+    if not email:
+        raise HTTPException(status_code=400, detail="email required")
+    
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    calendars = db.query(Calendar).filter(Calendar.user_id == user.id).order_by(Calendar.created_at.desc()).all()
+    
+    return {
+        "user_id": user.id,
+        "email": user.email,
+        "is_subscribed": user.is_subscribed,
+        "calendar_count": len(calendars),
+        "calendars": [
+            {
+                "id": cal.id,
+                "month": cal.month,
+                "platform": cal.platform,
+                "posts_per_week": cal.posts_per_week,
+                "total_posts": cal.total_posts,
+                "is_current": cal.is_current,
+                "created_at": cal.created_at.isoformat() if cal.created_at else None,
+                "post_count": len(cal.posts) if cal.posts else 0
+            }
+            for cal in calendars
+        ]
     }
 
 
