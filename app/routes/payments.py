@@ -277,15 +277,22 @@ async def activate_user_subscription(
     user.is_subscribed = True
     user.subscription_status = "active"
     user.subscription_plan = "growth"
+    
+    # Optionally link Stripe customer ID
+    stripe_customer_id = body.get("stripe_customer_id")
+    if stripe_customer_id:
+        user.stripe_customer_id = stripe_customer_id
+    
     db.commit()
     
-    logger.info(f"Manually activated subscription for user {user.id} ({user.email})")
+    logger.info(f"Manually activated subscription for user {user.id} ({user.email}), stripe_customer_id={user.stripe_customer_id}")
     
     return {
         "success": True,
         "user_id": user.id,
         "email": user.email,
-        "plan": "growth"
+        "plan": "growth",
+        "stripe_customer_id": user.stripe_customer_id
     }
 
 
