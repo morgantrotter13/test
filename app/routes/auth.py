@@ -12,6 +12,7 @@ from app.auth import (
     require_auth,
     get_current_user
 )
+from app.routes.payments import sync_stripe_subscription
 from typing import Optional, List
 from datetime import datetime
 
@@ -96,8 +97,13 @@ async def google_auth(request: GoogleAuthRequest, db: Session = Depends(get_db))
 
 
 @router.get("/me")
-def get_current_user_info(user: User = Depends(require_auth)):
-    """Get current authenticated user info."""
+def get_current_user_info(user: User = Depends(require_auth), db: Session = Depends(get_db)):
+    """Get current authenticated user info, with Stripe sync if needed."""
+    # Auto-sync: if user paid via Stripe but DB missed the webhook, fix it now
+    if user.stripe_customer_id and not user.is_subscribed:
+        sync_stripe_subscription(user, db)
+        db.refresh(user)
+    
     return {
         "id": user.id,
         "email": user.email,

@@ -15,6 +15,70 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
+
+def sync_stripe_subscription(user: User, db: Session) -> bool:
+    """
+    Check the user's actual subscription status in Stripe and sync to DB.
+    Returns True if the user's status was updated.
+    Called as a safety net when webhook / verify-session might have failed.
+    """
+    if not stripe.api_key or not user.stripe_customer_id:
+        return False
+    
+    try:
+        # List active subscriptions for this customer
+        subscriptions = stripe.Subscription.list(
+            customer=user.stripe_customer_id,
+            status="active",
+            limit=1
+        )
+        
+        if subscriptions.data:
+            # User has an active subscription in Stripe
+            sub = subscriptions.data[0]
+            changed = False
+            
+            if not user.is_subscribed:
+                user.is_subscribed = True
+                changed = True
+            if user.subscription_status != "active":
+                user.subscription_status = "active"
+                changed = True
+            if not user.subscription_plan:
+                user.subscription_plan = "growth"
+                changed = True
+            if sub.current_period_end:
+                user.subscription_end = datetime.fromtimestamp(sub.current_period_end)
+                changed = True
+            
+            if changed:
+                db.commit()
+                logger.info(f"🔄 Synced Stripe subscription for user {user.id} ({user.email}) — now active")
+            return changed
+        else:
+            # No active subscription in Stripe — check if DB says they are subscribed
+            if user.is_subscribed and user.subscription_status not in ("cancelled", "none"):
+                # Check for any subscription (including past_due, canceled, etc.)
+                all_subs = stripe.Subscription.list(
+                    customer=user.stripe_customer_id,
+                    limit=1
+                )
+                if all_subs.data:
+                    latest = all_subs.data[0]
+                    user.subscription_status = latest.status
+                    user.is_subscribed = latest.status == "active"
+                else:
+                    user.is_subscribed = False
+                    user.subscription_status = "none"
+                db.commit()
+                logger.info(f"🔄 Synced Stripe subscription for user {user.id} ({user.email}) — status: {user.subscription_status}")
+                return True
+        
+        return False
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe sync error for user {user.id}: {e}")
+        return False
+
 # Stripe configuration (read from settings/.env)
 stripe.api_key = settings.STRIPE_SECRET_KEY or ""
 STRIPE_WEBHOOK_SECRET = settings.STRIPE_WEBHOOK_SECRET or ""
@@ -115,7 +179,12 @@ async def get_subscription_status(
     user: User = Depends(require_auth),
     db: Session = Depends(get_db)
 ):
-    """Get current subscription status."""
+    """Get current subscription status, syncing with Stripe if needed."""
+    # If user has a Stripe customer but DB says not subscribed, check Stripe directly
+    if user.stripe_customer_id and not user.is_subscribed:
+        sync_stripe_subscription(user, db)
+        db.refresh(user)
+    
     return {
         "is_subscribed": user.is_subscribed,
         "subscription_status": user.subscription_status,
