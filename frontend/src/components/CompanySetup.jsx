@@ -87,9 +87,23 @@ function CompanySetup({ existingProfile, onSave }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
+    const isCoreProfileField = [
+      'brand_name',
+      'industry',
+      'target_audience',
+      'brand_values',
+      'brand_info',
+      'content_goals',
+      'platform',
+      'tone'
+    ].includes(name)
+
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
+      // Website inference can become stale after manual edits.
+      // Clear it so generation relies on current profile inputs.
+      ...(isCoreProfileField ? { website_summary: '' } : {})
     }))
   }
 

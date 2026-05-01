@@ -118,15 +118,30 @@ function AppContent() {
 
   // Save company profile
   const saveCompanyProfile = async (profile) => {
+    setError(null)
     setCompanyProfile(profile)
-    
-    if (isAuthenticated) {
-      await api.saveProfile(profile)
-    } else {
-      localStorage.setItem('companyProfile', JSON.stringify(profile))
+
+    try {
+      if (isAuthenticated) {
+        const saved = await api.saveProfile(profile)
+        if (!saved) {
+          throw new Error('Could not save your profile. Please try again.')
+        }
+
+        // Read back canonical profile so plan generation always uses server state.
+        const refreshedProfile = await api.getProfile()
+        if (refreshedProfile) {
+          setCompanyProfile(refreshedProfile)
+        }
+      } else {
+        localStorage.setItem('companyProfile', JSON.stringify(profile))
+      }
+
+      setActiveTab('dashboard')
+    } catch (err) {
+      console.error('Error saving profile:', err)
+      setError(err.message || 'Failed to save profile')
     }
-    
-    setActiveTab('dashboard')
   }
 
   // Generate content calendar with monthly context
@@ -146,11 +161,22 @@ function AppContent() {
     ).slice(0, 30)
 
     try {
+      let profileForGeneration = companyProfile
+
+      // Always use latest saved account profile before generating.
+      if (isAuthenticated) {
+        const latestProfile = await api.getProfile()
+        if (latestProfile) {
+          profileForGeneration = latestProfile
+          setCompanyProfile(latestProfile)
+        }
+      }
+
       const response = await fetch(`${API_V1}/content/calendar`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...companyProfile,
+          ...profileForGeneration,
           content_goals: monthlySettings.content_goals,
           posts_per_week: monthlySettings.posts_per_week,
           monthly_promotions: monthlySettings.monthly_promotions,
